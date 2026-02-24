@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 type FormState = {
   procedure: string;
@@ -30,40 +30,66 @@ export default function SubmitPage() {
     anonymous: true,
   });
 
+  const startedAtRef = useRef<number>(Date.now());
+  const [honeypot, setHoneypot] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  const formatted = useMemo(() => {
-    return [
-      `Procedure: ${form.procedure}`,
-      `Question: ${form.question.trim() || "(none)"}`,
-      `Answer: ${form.answer.trim() || "(none)"}`,
-      `Context: ${form.context.trim() || "(none)"}`,
-      `Tags: ${form.tags.trim() || "(none)"}`,
-      `Anonymous: ${form.anonymous ? "Yes" : "No"}`,
-    ].join("\n");
-  }, [form]);
-
-  async function copyToClipboard() {
-    await navigator.clipboard.writeText(formatted);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  }
-
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setErrorMsg(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/pimp/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          procedure: form.procedure,
+          question: form.question,
+          answer: form.answer,
+          context: form.context,
+          tags: form.tags,
+          anonymous: form.anonymous,
+          honeypot,
+          startedAt: startedAtRef.current,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setErrorMsg(data?.error ?? "Submission failed.");
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setErrorMsg("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent("Pimp Question Submission (Beta)");
-    const body = encodeURIComponent(formatted);
-    return `mailto:?subject=${subject}&body=${body}`;
-  }, [formatted]);
+  function resetForm() {
+    setSubmitted(false);
+    setErrorMsg(null);
+    setHoneypot("");
+    startedAtRef.current = Date.now();
+    setForm({
+      procedure: "Laparoscopic Cholecystectomy",
+      question: "",
+      answer: "",
+      context: "",
+      tags: "",
+      anonymous: true,
+    });
+  }
 
   return (
     <div className="py-10">
@@ -75,6 +101,18 @@ export default function SubmitPage() {
       <div className="mt-6 rounded-2xl border border-slate-200 p-6">
         {!submitted ? (
           <form onSubmit={onSubmit} className="space-y-5">
+            {/* Honeypot (hidden anti-spam field) */}
+            <div className="hidden">
+              <label className="text-sm font-medium text-slate-900">Website</label>
+              <input
+                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                autoComplete="off"
+                tabIndex={-1}
+              />
+            </div>
+
             <div>
               <label className="text-sm font-medium text-slate-900">Procedure</label>
               <select
@@ -149,61 +187,48 @@ export default function SubmitPage() {
               </label>
             </div>
 
+            {errorMsg && (
+              <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+                {errorMsg}
+              </div>
+            )}
+
             <button
               type="submit"
-              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+              disabled={loading}
+              className={[
+                "rounded-xl px-4 py-2 text-sm font-medium text-white",
+                loading ? "bg-slate-400" : "bg-slate-900 hover:bg-slate-800",
+              ].join(" ")}
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
 
-            <p className="text-xs text-slate-500">
-              Please do not include patient identifiers.
-            </p>
+            <p className="text-xs text-slate-500">Please do not include patient identifiers.</p>
           </form>
         ) : (
           <div>
-            <div className="text-lg font-semibold text-slate-900">
-              Thanks — submission saved (beta).
-            </div>
+            <div className="text-lg font-semibold text-slate-900">Thanks — submitted.</div>
+            <p className="mt-2 text-sm text-slate-600">
+              Your question has been received and will be reviewed before inclusion.
+            </p>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={copyToClipboard}
-                className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50"
-              >
-                {copied ? "Copied ✅" : "Copy submission"}
-              </button>
-
-              <a
-                href={mailtoHref}
-                className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50"
-              >
-                Email submission
-              </a>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSubmitted(false);
-                  setForm({
-                    procedure: "Laparoscopic Cholecystectomy",
-                    question: "",
-                    answer: "",
-                    context: "",
-                    tags: "",
-                    anonymous: true,
-                  });
-                }}
+                onClick={resetForm}
                 className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
               >
                 Submit another
               </button>
-            </div>
 
-            <pre className="mt-5 whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-700">
-              {formatted}
-            </pre>
+              <a
+                href="/procedures/lap-chole"
+                className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50"
+              >
+                Back to Lap Chole
+              </a>
+            </div>
           </div>
         )}
       </div>

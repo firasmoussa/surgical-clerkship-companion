@@ -1,5 +1,5 @@
 import StickyTabs from "../_components/StickyTabs";
-import Disclosure from "@/app/components/Disclosure";
+import Disclosure from "../../../components/Disclosure";
 
 type Level = "Level 1 – Core" | "Level 2 – Expected" | "Level 3 – Advanced";
 
