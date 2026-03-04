@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import StickyTabs from "../_components/StickyTabs";
+import LapCholeAnatomySVG from "../_components/LapCholeAnatomySVG";
 
 type Structure = {
   name: string;
@@ -9,15 +10,15 @@ type Structure = {
 };
 
 const structures: Structure[] = [
-  { name: "Gallbladder fundus", note: "Retracted superiorly to expose the RUQ." },
-  { name: "Infundibulum", note: "Used for lateral traction to open Calot’s triangle." },
-  { name: "Cystic duct", note: "One of the two structures entering the gallbladder in CVS." },
-  { name: "Cystic artery", note: "Typically from right hepatic artery; clipped/divided after CVS." },
-  { name: "Common hepatic duct (CHD)", note: "Boundary of Calot’s triangle; avoid mistaking for cystic duct." },
-  { name: "Common bile duct (CBD)", note: "Most feared injury target; stay oriented, confirm CVS." },
-  { name: "Inferior liver edge", note: "Superior boundary for Calot’s triangle definition." },
-  { name: "Calot’s triangle", note: "Dissection space to identify cystic duct/artery safely." },
-  { name: "Rouviere’s sulcus", note: "Landmark approximating plane of CBD; stay above this plane." },
+  { name: "Gallbladder fundus", note: "The rounded inferior tip, retracted superiorly during lap chole to expose the RUQ." },
+  { name: "Infundibulum", note: "The widened pouch at the neck; grasped for lateral traction to open Calot's triangle." },
+  { name: "Cystic duct", note: "One of the two structures confirmed in the Critical View of Safety (CVS)." },
+  { name: "Cystic artery", note: "Typically a branch of the right hepatic artery; clipped and divided after CVS." },
+  { name: "Common hepatic duct (CHD)", note: "Forms the medial border of Calot's triangle; avoid mistaking it for the cystic duct." },
+  { name: "Common bile duct (CBD)", note: "Most feared injury in lap chole; confirm CVS before clipping anything." },
+  { name: "Inferior liver edge", note: "Forms the superior border of Calot's triangle." },
+  { name: "Calot's triangle", note: "Space bounded by CHD (medial), cystic duct (inferior), liver edge (superior). Apex points toward liver." },
+  { name: "Rouvière's sulcus", note: "A 2–5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. It marks the approximate plane of the CBD, which lies inferior and posterior to it. During lap chole, stay superior and anterior to this landmark to avoid CBD injury." },
 ];
 
 export default function LapCholeAnatomyPage() {
@@ -33,11 +34,9 @@ export default function LapCholeAnatomyPage() {
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Relevant Anatomy</h2>
         <p className="mt-2 max-w-2xl text-sm text-slate-600">
-          Toggle between illustrated and intraoperative views. For beta, this page uses placeholders —
-          you’ll replace the image panels with sourced images later.
+          Toggle between illustrated and intraoperative views. Click any structure chip to highlight it on the diagram.
         </p>
 
-        {/* Toggle */}
         <div className="mt-5 inline-flex rounded-xl border border-slate-200 p-1 text-sm">
           <button
             type="button"
@@ -62,25 +61,21 @@ export default function LapCholeAnatomyPage() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
-          {/* Image panel */}
           <div className="lg:col-span-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="text-xs font-medium text-slate-600">
-                {view === "illustrated" ? "Illustrated anatomy (placeholder)" : "Intraoperative view (placeholder)"}
+                {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view (placeholder)"}
               </div>
 
-              <div className="mt-3 flex h-[360px] items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white text-sm text-slate-500">
-                {view === "illustrated"
-                  ? "Add illustrated biliary + Calot’s triangle images here"
-                  : "Add intraoperative labeled images here"}
-              </div>
-
-              <div className="mt-3 text-xs text-slate-500">
-                Later: clicking a structure can highlight its label on the image (Phase 2).
-              </div>
+              {view === "illustrated" ? (
+                <LapCholeAnatomySVG selected={selected} />
+              ) : (
+                <div className="mt-3 flex h-[360px] items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white text-sm text-slate-500">
+                  Add intraoperative labeled images here
+                </div>
+              )}
             </div>
 
-            {/* Structure selector */}
             <div className="mt-4 rounded-2xl border border-slate-200 p-4">
               <div className="text-sm font-semibold text-slate-900">Structures you should be able to identify</div>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -113,13 +108,11 @@ export default function LapCholeAnatomyPage() {
             </div>
           </div>
 
-          {/* Checklist */}
           <div className="rounded-2xl border border-slate-200 p-4">
             <div className="text-sm font-semibold text-slate-900">Checklist</div>
             <p className="mt-1 text-xs text-slate-600">
-              Quick self-check before scrubbing. (Later we can persist these states locally.)
+              Quick self-check before scrubbing.
             </p>
-
             <div className="mt-4 space-y-3">
               {structures.map((s) => (
                 <label key={s.name} className="flex items-start gap-2 text-sm text-slate-700">
