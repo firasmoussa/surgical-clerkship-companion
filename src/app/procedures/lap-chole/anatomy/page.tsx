@@ -3,6 +3,7 @@
 import { useState } from "react";
 import StickyTabs from "../_components/StickyTabs";
 import LapCholeAnatomySVG from "../_components/LapCholeAnatomySVG";
+import LapCholeIntraopView, { STRUCTURE_COLORS } from "../_components/LapCholeIntraopView";
 
 type Structure = {
   name: string;
@@ -26,6 +27,7 @@ export default function LapCholeAnatomyPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   const selectedItem = structures.find((s) => s.name === selected);
+  const accentColor = selected ? (STRUCTURE_COLORS[selected] ?? "#0f172a") : null;
 
   return (
     <>
@@ -37,6 +39,7 @@ export default function LapCholeAnatomyPage() {
           Toggle between illustrated and intraoperative views. Click any structure chip to highlight it on the diagram.
         </p>
 
+        {/* Toggle */}
         <div className="mt-5 inline-flex rounded-xl border border-slate-200 p-1 text-sm">
           <button
             type="button"
@@ -61,37 +64,43 @@ export default function LapCholeAnatomyPage() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
+          {/* Image panel */}
           <div className="lg:col-span-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="text-xs font-medium text-slate-600">
-                {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view (placeholder)"}
+                {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view — real OR images"}
               </div>
 
               {view === "illustrated" ? (
                 <LapCholeAnatomySVG selected={selected} />
               ) : (
-                <div className="mt-3 flex h-[360px] items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white text-sm text-slate-500">
-                  Add intraoperative labeled images here
-                </div>
+                <LapCholeIntraopView selected={selected} />
               )}
             </div>
 
+            {/* Structure chips */}
             <div className="mt-4 rounded-2xl border border-slate-200 p-4">
               <div className="text-sm font-semibold text-slate-900">Structures you should be able to identify</div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {structures.map((s) => {
                   const active = selected === s.name;
+                  const color = view === "intraop" ? (STRUCTURE_COLORS[s.name] ?? "#0f172a") : null;
+
                   return (
                     <button
                       key={s.name}
                       type="button"
                       onClick={() => setSelected(active ? null : s.name)}
-                      className={[
-                        "rounded-full border px-3 py-1 text-xs",
-                        active
-                          ? "border-slate-900 bg-slate-900 text-white"
-                          : "border-slate-200 text-slate-700 hover:bg-slate-50",
-                      ].join(" ")}
+                      className="rounded-full border px-3 py-1 text-xs transition-colors"
+                      style={
+                        active && color
+                          ? { backgroundColor: color, borderColor: color, color: "#fff" }
+                          : color
+                          ? { borderColor: color, color: color, backgroundColor: "transparent" }
+                          : active
+                          ? { backgroundColor: "#0f172a", borderColor: "#0f172a", color: "#fff" }
+                          : { borderColor: "#e2e8f0", color: "#334155", backgroundColor: "transparent" }
+                      }
                     >
                       {s.name}
                     </button>
@@ -100,19 +109,29 @@ export default function LapCholeAnatomyPage() {
               </div>
 
               {selectedItem && (
-                <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-                  <div className="font-medium text-slate-900">{selectedItem.name}</div>
-                  <div className="mt-1">{selectedItem.note}</div>
+                <div
+                  className="mt-4 rounded-xl border p-3 text-sm"
+                  style={{
+                    borderColor: accentColor ?? "#e2e8f0",
+                    backgroundColor: accentColor ? `${accentColor}12` : "#f8fafc",
+                  }}
+                >
+                  <div
+                    className="font-medium"
+                    style={{ color: accentColor ?? "#0f172a" }}
+                  >
+                    {selectedItem.name}
+                  </div>
+                  <div className="mt-1 text-slate-700">{selectedItem.note}</div>
                 </div>
               )}
             </div>
           </div>
 
+          {/* Checklist */}
           <div className="rounded-2xl border border-slate-200 p-4">
             <div className="text-sm font-semibold text-slate-900">Checklist</div>
-            <p className="mt-1 text-xs text-slate-600">
-              Quick self-check before scrubbing.
-            </p>
+            <p className="mt-1 text-xs text-slate-600">Quick self-check before scrubbing.</p>
             <div className="mt-4 space-y-3">
               {structures.map((s) => (
                 <label key={s.name} className="flex items-start gap-2 text-sm text-slate-700">
