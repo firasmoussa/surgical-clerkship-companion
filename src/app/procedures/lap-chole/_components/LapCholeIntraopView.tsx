@@ -34,12 +34,12 @@ const SLIDES: Slide[] = [
       "Anterior view of the hepatocystic triangle before dissection. The gallbladder fundus and infundibulum are retracted to expose Calot's triangle. Rouvière's sulcus is visible at the inferior liver edge, providing the key orientation landmark (R4U line).",
     credit: "Gupta V, Ann Hepatobiliary Pancreat Surg 2023 — CC BY-NC 4.0",
     hotspots: [
-      { structure: "Gallbladder fundus",     label: "GB fundus",         x: 62, y: 18, color: "#16a34a" },
-      { structure: "Infundibulum",           label: "Infundibulum",      x: 52, y: 55, color: "#0e7490" },
-      { structure: "Inferior liver edge",    label: "Liver edge",        x: 28, y: 30, color: "#92400e" },
-      { structure: "Rouvière's sulcus",      label: "Rouvière's sulcus", x: 18, y: 42, color: "#7c3aed" },
-      { structure: "Common bile duct (CBD)", label: "CBD",               x: 38, y: 72, color: "#b45309" },
-      { structure: "Calot's triangle",       label: "Calot's △",         x: 44, y: 62, color: "#a16207" },
+      { structure: "Gallbladder fundus",     label: "GB fundus",         x: 17.1, y: 6.6,  color: "#16a34a" },
+      { structure: "Infundibulum",           label: "Infundibulum",      x: 18.1, y: 27.9, color: "#0e7490" },
+      { structure: "Cystic duct",            label: "Cystic duct",       x: 32.2, y: 49.5, color: "#2563eb" },
+      { structure: "Inferior liver edge",    label: "Liver edge",        x: 17.5, y: 62.9, color: "#92400e" },
+      { structure: "Rouvière's sulcus",      label: "Rouvière's sulcus", x: 26.7, y: 44.2, color: "#7c3aed" },
+      { structure: "Common bile duct (CBD)", label: "CBD",               x: 37.6, y: 67.9, color: "#b45309" },
     ],
   },
   {
@@ -47,13 +47,11 @@ const SLIDES: Slide[] = [
     title: "Critical View of Safety achieved",
     src: "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/e58e/10201064/457a7548d280/ahbps-27-2-201-f6.jpg",
     caption:
-      "Panel F: Critical View of Safety (CVS) fully achieved. The hepatocystic triangle is cleared of all fat and fibrous tissue. Only two tubular structures — the cystic duct (white arrowhead) and cystic artery (black arrowhead) — remain attached to the gallbladder, with the cystic plate visible superiorly.",
+      "Panel F: Critical View of Safety (CVS) fully achieved. The hepatocystic triangle is cleared of all fat and fibrous tissue. Only two tubular structures — the cystic duct and cystic artery — remain attached to the gallbladder, with the cystic plate visible superiorly.",
     credit: "Gupta V, Ann Hepatobiliary Pancreat Surg 2023 — CC BY-NC 4.0",
     hotspots: [
-      { structure: "Cystic duct",      label: "Cystic duct",   x: 44, y: 68, color: "#0f766e" },
-      { structure: "Cystic artery",    label: "Cystic artery", x: 36, y: 50, color: "#b91c1c" },
-      { structure: "Calot's triangle", label: "Calot's △",     x: 50, y: 58, color: "#a16207" },
-      { structure: "Infundibulum",     label: "Infundibulum",  x: 58, y: 38, color: "#0e7490" },
+      { structure: "Cystic duct",   label: "Cystic duct",   x: 85.1, y: 85.9, color: "#2563eb" },
+      { structure: "Cystic artery", label: "Cystic artery", x: 88,   y: 81.5, color: "#dc2626" },
     ],
   },
   {
@@ -61,13 +59,11 @@ const SLIDES: Slide[] = [
     title: "Calot's triangle dissected",
     src: "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/e58e/10201064/819a0bb42a70/ahbps-27-2-201-f7.jpg",
     caption:
-      "Panel C: Cystic plate fully exposed (broken line). White arrowhead = cystic duct; black arrowhead = cystic artery. The two structures run separately into the gallbladder neck, confirming the Critical View of Safety.",
+      "Fig 7C: Calot's triangle fully dissected. The cystic artery and cystic duct are clearly separated and ready for clipping.",
     credit: "Gupta V, Ann Hepatobiliary Pancreat Surg 2023 — CC BY-NC 4.0",
     hotspots: [
-      { structure: "Cystic duct",               label: "Cystic duct", x: 52, y: 70, color: "#0f766e" },
-      { structure: "Cystic artery",             label: "Cystic a.",   x: 40, y: 48, color: "#b91c1c" },
-      { structure: "Common hepatic duct (CHD)", label: "CHD",         x: 24, y: 60, color: "#166534" },
-      { structure: "Calot's triangle",          label: "Calot's △",   x: 44, y: 60, color: "#a16207" },
+      { structure: "Cystic artery", label: "Cystic artery", x: 55.3, y: 58,   color: "#dc2626" },
+      { structure: "Cystic duct",   label: "Cystic duct",   x: 52.6, y: 73.1, color: "#2563eb" },
     ],
   },
 ];
