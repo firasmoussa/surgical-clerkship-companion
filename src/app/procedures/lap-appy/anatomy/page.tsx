@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import StickyTabs from "../_components/StickyTabs";
 const structures = [
   { name: "Appendix", note: "A blind-ended tube arising from the posteromedial cecum. Typically 6-9 cm long. Variable position -- most commonly pelvic or retrocecal." },
   { name: "Appendiceal base", note: "The junction of the appendix and cecum. The clip or staple line is placed here. Confirm healthy tissue at the base before firing." },
@@ -42,7 +41,6 @@ export default function LapAppyAnatomyPage() {
   }
   return (
     <>
-      <StickyTabs />
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Relevant Anatomy</h2>
         <p className="mt-2 max-w-2xl text-sm text-slate-600">Click any structure chip to highlight it and read the clinical note.</p>

@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
-import StickyTabs from "../_components/StickyTabs";
-type Question = { id: string; prompt: string; options: { id: string; text: string }[]; correct: string; explanation: string; };
+type Question = { id: string; prompt: string; options: { id: string; text: string }[]; correct: string; explanation: string };
+
 const QUESTIONS: Question[] = [
   { id: "q1", prompt: "Which landmark most reliably leads you to the appendiceal base during laparoscopy?", options: [{ id: "A", text: "Ileocecal valve" }, { id: "B", text: "Terminal ileum" }, { id: "C", text: "Taenia coli" }, { id: "D", text: "Psoas muscle" }], correct: "C", explanation: "The three taenia coli converge at the appendiceal base. Following them is the most reliable way to locate the appendix regardless of its position." },
   { id: "q2", prompt: "Approximately what percentage of patients have a retrocecal appendix?", options: [{ id: "A", text: "10%" }, { id: "B", text: "30%" }, { id: "C", text: "50%" }, { id: "D", text: "65%" }], correct: "D", explanation: "Retrocecal is the most common anatomic position (~65%), though it may produce an atypical presentation with flank or back pain." },
@@ -14,7 +14,9 @@ const QUESTIONS: Question[] = [
   { id: "q9", prompt: "What is the appropriate initial management of a periappendiceal abscess in a stable patient?", options: [{ id: "A", text: "Immediate appendectomy" }, { id: "B", text: "Antibiotics alone" }, { id: "C", text: "Percutaneous drainage plus antibiotics, followed by interval appendectomy consideration" }, { id: "D", text: "Laparotomy with right hemicolectomy" }], correct: "C", explanation: "A contained periappendiceal abscess in a stable patient is managed with CT-guided drainage and IV antibiotics. After resolution, interval appendectomy is considered." },
   { id: "q10", prompt: "You encounter gelatinous mucin throughout the peritoneum during an appendectomy. What is the most likely diagnosis?", options: [{ id: "A", text: "Perforated gastric ulcer" }, { id: "B", text: "Pseudomyxoma peritonei from a low-grade appendiceal mucinous neoplasm" }, { id: "C", text: "Mucinous ovarian cystadenoma" }, { id: "D", text: "Ischemic colitis" }], correct: "B", explanation: "Pseudomyxoma peritonei arises from a low-grade appendiceal mucinous neoplasm in ~90% of cases. Stop the operation and get HPB/surgical oncology involved." },
 ];
+
 type Phase = "answering" | "checked" | "finished";
+
 export default function LapAppyQuizPage() {
   const questions = useMemo(() => QUESTIONS, []);
   const [idx, setIdx] = useState(0);
@@ -22,65 +24,152 @@ export default function LapAppyQuizPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [incorrectIds, setIncorrectIds] = useState<string[]>([]);
+
   const q = questions[idx];
+
   function submit() {
     if (!selected) return;
     if (selected === q.correct) setScore((s) => s + 1);
     else setIncorrectIds((arr) => [...arr, q.id]);
     setPhase("checked");
   }
+
   function next() {
     setSelected(null);
     if (idx + 1 >= questions.length) setPhase("finished");
     else { setIdx((i) => i + 1); setPhase("answering"); }
   }
+
   function restart() {
     setIdx(0); setPhase("answering"); setSelected(null); setScore(0); setIncorrectIds([]);
   }
+
   return (
     <>
-      <StickyTabs />
       <section className="pt-8">
-        <h2 className="text-xl font-semibold">Quiz Yourself</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600">One question at a time. Submit to reveal the answer and explanation.</p>
+        <h2 className="font-serif italic text-[20px] text-ink font-normal">Quiz Yourself</h2>
+        <p className="mt-2 max-w-2xl text-[13px] text-secondary leading-relaxed">
+          One question at a time. Submit to reveal the answer and explanation.
+        </p>
+
         {phase !== "finished" ? (
-          <div className="mt-6 rounded-2xl border border-slate-200 p-6">
+          <div className="mt-6 rounded-lg border border-border-warm p-5">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full rounded-full bg-slate-900 transition-all" style={{ width: `${((idx + (phase === "checked" ? 1 : 0)) / questions.length) * 100}%` }} />
+              <div className="flex-1 h-1.5 rounded-full bg-surface overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-ochre transition-all"
+                  style={{ width: `${((idx + (phase === "checked" ? 1 : 0)) / questions.length) * 100}%` }}
+                />
               </div>
-              <span className="text-xs text-slate-500 flex-shrink-0">{idx + 1} / {questions.length}</span>
+              <span className="text-[11px] text-muted flex-shrink-0">{idx + 1} / {questions.length}</span>
             </div>
-            <div className="text-sm font-medium text-slate-900">{q.prompt}</div>
+
+            <div className="text-[13px] font-medium text-ink">{q.prompt}</div>
+
             <div className="mt-4 space-y-2">
               {q.options.map((opt) => {
-                let cls = "w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ";
-                if (phase === "answering") cls += selected === opt.id ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 hover:bg-slate-50 text-slate-700";
-                else if (opt.id === q.correct) cls += "border-green-500 bg-green-50 text-green-900 font-medium";
-                else if (selected === opt.id) cls += "border-red-400 bg-red-50 text-red-900";
-                else cls += "border-slate-100 text-slate-400";
-                return <button key={opt.id} type="button" disabled={phase === "checked"} onClick={() => setSelected(opt.id)} className={cls}><span className="font-medium">{opt.id}.</span> {opt.text}</button>;
+                const isChosen = selected === opt.id;
+                const showResult = phase === "checked";
+                const isCorrect = opt.id === q.correct;
+
+                let cls = "w-full rounded-[6px] border px-4 py-3 text-left text-[13px] transition-colors ";
+                let inlineStyle: React.CSSProperties | undefined;
+
+                if (!showResult) {
+                  if (isChosen) {
+                    cls += "border-ochre text-ink";
+                    inlineStyle = { backgroundColor: "rgba(193,123,47,0.08)" };
+                  } else {
+                    cls += "border-border-warm text-secondary hover:bg-surface";
+                  }
+                } else {
+                  if (isCorrect) {
+                    cls += "border-cvs-border bg-cvs-light text-cvs font-medium";
+                  } else if (isChosen) {
+                    cls += "border-danger text-danger";
+                    inlineStyle = { backgroundColor: "rgba(139,58,58,0.06)" };
+                  } else {
+                    cls += "border-border-warm text-muted";
+                  }
+                }
+
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    disabled={showResult}
+                    onClick={() => setSelected(opt.id)}
+                    className={cls}
+                    style={inlineStyle}
+                  >
+                    <span className="font-medium">{opt.id}.</span> {opt.text}
+                  </button>
+                );
               })}
             </div>
-            {phase === "checked" && <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 leading-relaxed"><span className="font-semibold text-slate-900">Explanation: </span>{q.explanation}</div>}
-            <div className="mt-4 flex justify-end">
+
+            {phase === "checked" && (
+              <div
+                className="mt-4 rounded-md border-l-[3px] p-3"
+                style={{ borderLeftColor: "#C17B2F", backgroundColor: "#EDE5D8" }}
+              >
+                <div className="text-[11px] text-ochre font-medium mb-1">
+                  {selected === q.correct ? "Correct" : `Incorrect -- correct answer: ${q.correct}`}
+                </div>
+                <p className="text-[13px] text-secondary leading-relaxed">{q.explanation}</p>
+              </div>
+            )}
+
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-[11px] text-muted">Score: {score}</span>
               {phase === "answering" ? (
-                <button type="button" onClick={submit} disabled={!selected} className={["rounded-xl px-4 py-2 text-sm font-medium transition-colors", selected ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-slate-200 text-slate-500"].join(" ")}>Submit</button>
+                <button
+                  type="button"
+                  onClick={submit}
+                  disabled={!selected}
+                  className={[
+                    "rounded-[6px] px-4 py-2 text-[13px] font-medium transition-colors",
+                    selected ? "bg-ochre text-parchment" : "bg-surface text-muted cursor-not-allowed",
+                  ].join(" ")}
+                >
+                  Submit
+                </button>
               ) : (
-                <button type="button" onClick={next} className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">{idx + 1 === questions.length ? "Finish" : "Next"}</button>
+                <button
+                  type="button"
+                  onClick={next}
+                  className="bg-ochre text-parchment rounded-[6px] px-4 py-2 text-[13px] font-medium"
+                >
+                  {idx + 1 === questions.length ? "Finish" : "Next"}
+                </button>
               )}
             </div>
           </div>
         ) : (
-          <div className="mt-6 rounded-2xl border border-slate-200 p-6">
-            <div className="text-sm text-slate-600">Quiz complete</div>
-            <div className="mt-1 text-2xl font-semibold text-slate-900">You scored {score} / {questions.length}</div>
+          <div className="mt-6 rounded-lg border border-border-warm p-6">
+            <p className="text-[11px] text-muted uppercase tracking-wider">Quiz complete</p>
+            <div className="mt-1 font-serif italic text-[26px] text-ink font-normal">
+              {score} / {questions.length}
+            </div>
+
             {incorrectIds.length > 0 ? (
-              <div className="mt-4 text-sm text-slate-600"><div className="font-medium text-slate-900">Review suggestion</div><div className="mt-1">Consider reviewing these in the Pimp tab: <span className="text-slate-700">{incorrectIds.join(", ")}</span></div></div>
+              <p className="mt-4 text-[13px] text-secondary">
+                <span className="font-medium text-ink">Review suggestion: </span>
+                Consider revisiting these in the Pimp tab: {incorrectIds.join(", ")}
+              </p>
             ) : (
-              <div className="mt-4 text-sm text-slate-600">Clean sweep. You are ready to be pimped on rounds.</div>
+              <p className="mt-4 text-[13px] text-secondary">Clean sweep. You are ready to be pimped on rounds.</p>
             )}
-            <div className="mt-6"><button type="button" onClick={restart} className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50">Restart quiz</button></div>
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={restart}
+                className="border border-border-warm text-secondary rounded-[6px] px-4 py-2 text-[13px] hover:bg-surface transition-colors"
+              >
+                Restart quiz
+              </button>
+            </div>
           </div>
         )}
       </section>

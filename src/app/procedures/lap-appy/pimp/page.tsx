@@ -1,8 +1,21 @@
 "use client";
 import { useState } from "react";
-import StickyTabs from "../_components/StickyTabs";
 type Level = 1 | 2 | 3;
-type Question = { id: string; level: Level; question: string; answer: string; pearl?: string; };
+
+const LEVEL_LABELS: Record<Level, string> = {
+  1: "Core",
+  2: "Expected",
+  3: "Advanced",
+};
+
+const LEVEL_TAG_CLASS: Record<Level, string> = {
+  1: "text-secondary border-border-warm bg-surface",
+  2: "text-ochre border-ochre bg-surface",
+  3: "text-danger border-danger bg-surface",
+};
+
+type Question = { id: string; level: Level; question: string; answer: string; pearl?: string };
+
 const QUESTIONS: Question[] = [
   { id: "p1", level: 1, question: "What is the blood supply to the appendix?", answer: "The appendiceal artery, a branch of the ileocolic artery (which comes off the SMA). It runs within the mesoappendix.", pearl: "The ileocolic artery is the terminal branch of the SMA and supplies the cecum, appendix, and terminal ileum." },
   { id: "p2", level: 1, question: "How do you reliably find the appendix laparoscopically?", answer: "Follow the taenia coli to their convergence point on the cecum -- this always leads to the appendiceal base, regardless of appendix position." },
@@ -18,47 +31,104 @@ const QUESTIONS: Question[] = [
   { id: "p12", level: 3, question: "The appendix looks completely normal intraoperatively. What is your next step?", answer: "Systematic survey: inspect the terminal ileum for Meckel's diverticulum, mesentery for lymph nodes, right ovary and tube in females, terminal ileum for Crohn's, sigmoid for diverticulitis. Remove the appendix regardless." },
   { id: "p13", level: 3, question: "What is pseudomyxoma peritonei and what is its relation to the appendix?", answer: "A syndrome of mucin accumulation in the peritoneal cavity, arising from a low-grade appendiceal mucinous neoplasm (LAMN) in ~90% of cases. Treatment is cytoreductive surgery + HIPEC.", pearl: "If you see gelatinous mucin throughout the peritoneum intraop -- stop and get HPB/surgical oncology involved." },
 ];
-const LEVEL_COLORS: Record<Level, string> = { 1: "#16a34a", 2: "#2563eb", 3: "#9333ea" };
-const LEVEL_LABELS: Record<Level, string> = { 1: "Level 1 -- Know Cold", 2: "Level 2 -- Know Well", 3: "Level 3 -- Impress the Attending" };
+
 export default function LapAppyPimpPage() {
   const [open, setOpen] = useState<string | null>(null);
   const [filter, setFilter] = useState<Level | null>(null);
   const filtered = filter ? QUESTIONS.filter((q) => q.level === filter) : QUESTIONS;
+
   return (
     <>
-      <StickyTabs />
       <section className="pt-8">
-        <h2 className="text-xl font-semibold">Pimp Questions</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600">Click a question to reveal the answer. Filter by level if you want to focus.</p>
+        <h2 className="font-serif italic text-[20px] text-ink font-normal">Pimp Questions</h2>
+        <p className="mt-2 max-w-2xl text-[13px] text-secondary leading-relaxed">
+          Click a question to reveal the answer. Filter by level to focus.
+        </p>
+
         <div className="mt-4 flex flex-wrap gap-2">
-          <button type="button" onClick={() => setFilter(null)} className={["rounded-full border px-3 py-1 text-xs transition-colors", filter === null ? "bg-slate-900 border-slate-900 text-white" : "border-slate-200 text-slate-600 hover:bg-slate-50"].join(" ")}>All</button>
+          <button
+            type="button"
+            onClick={() => setFilter(null)}
+            className={[
+              "rounded-full border px-3 py-1 text-xs transition-colors",
+              filter === null
+                ? "bg-ochre border-ochre text-parchment font-medium"
+                : "border-border-warm text-secondary bg-transparent hover:text-ink",
+            ].join(" ")}
+          >
+            All
+          </button>
           {([1, 2, 3] as Level[]).map((lvl) => (
-            <button key={lvl} type="button" onClick={() => setFilter(filter === lvl ? null : lvl)} className="rounded-full border px-3 py-1 text-xs transition-colors" style={filter === lvl ? { backgroundColor: LEVEL_COLORS[lvl], borderColor: LEVEL_COLORS[lvl], color: "#fff" } : { borderColor: LEVEL_COLORS[lvl], color: LEVEL_COLORS[lvl], backgroundColor: "transparent" }}>{LEVEL_LABELS[lvl]}</button>
+            <button
+              key={lvl}
+              type="button"
+              onClick={() => setFilter(filter === lvl ? null : lvl)}
+              className={[
+                "rounded-full border px-3 py-1 text-xs transition-colors",
+                filter === lvl
+                  ? "bg-ochre border-ochre text-parchment font-medium"
+                  : "border-border-warm text-secondary bg-transparent hover:text-ink",
+              ].join(" ")}
+            >
+              Level {lvl} -- {LEVEL_LABELS[lvl]}
+            </button>
           ))}
         </div>
+
         <div className="mt-6 space-y-3">
           {filtered.map((q) => {
             const isOpen = open === q.id;
             return (
-              <div key={q.id} className="rounded-2xl border border-slate-200 overflow-hidden">
-                <button type="button" onClick={() => setOpen(isOpen ? null : q.id)} className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors">
-                  <span className="mt-0.5 flex-shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold text-white" style={{ backgroundColor: LEVEL_COLORS[q.level] }}>L{q.level}</span>
-                  <span className="text-sm font-medium text-slate-900 flex-1">{q.question}</span>
-                  <svg className={["w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5 transition-transform", isOpen ? "rotate-180" : ""].join(" ")} viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <div key={q.id} className="rounded-lg border border-border-warm overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : q.id)}
+                  className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-surface transition-colors"
+                >
+                  <span
+                    className={[
+                      "mt-0.5 flex-shrink-0 inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium",
+                      LEVEL_TAG_CLASS[q.level],
+                    ].join(" ")}
+                  >
+                    L{q.level}
+                  </span>
+                  <span className="text-[13px] text-ink flex-1">{q.question}</span>
+                  <svg
+                    className={["w-4 h-4 text-muted flex-shrink-0 mt-0.5 transition-transform", isOpen ? "rotate-180" : ""].join(" ")}
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
                 {isOpen && (
-                  <div className="px-4 pb-4 border-t border-slate-100 bg-slate-50/50">
-                    <div className="pt-3 text-sm text-slate-700 leading-relaxed">{q.answer}</div>
-                    {q.pearl && <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900"><span className="font-semibold">Pearl: </span>{q.pearl}</div>}
+                  <div className="px-4 pb-4 border-t border-border-warm bg-surface">
+                    <div className="pt-3 text-[13px] text-secondary leading-relaxed">{q.answer}</div>
+                    {q.pearl && (
+                      <div
+                        className="mt-3 rounded-md border-l-[3px] p-3"
+                        style={{ borderLeftColor: "#C17B2F", backgroundColor: "#EDE5D8" }}
+                      >
+                        <span className="text-[11px] text-ochre font-medium">Pearl: </span>
+                        <span className="text-[12px] text-secondary">{q.pearl}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             );
           })}
         </div>
-        <div className="mt-8 rounded-2xl border border-dashed border-slate-200 p-5 text-center">
-          <p className="text-sm text-slate-600">Have a question that stumped you on rounds?</p>
-          <a href="/submit" className="mt-2 inline-block rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition-colors">Submit a pimp question</a>
+
+        <div className="mt-8 rounded-lg border border-dashed border-border-warm p-5 text-center">
+          <p className="text-[13px] text-secondary">Have a question that stumped you on rounds?</p>
+          <a
+            href="/submit"
+            className="mt-3 inline-block bg-ochre text-parchment rounded-[6px] px-4 py-2 text-[13px] font-medium hover:opacity-90 transition-opacity"
+          >
+            Submit a pimp question
+          </a>
         </div>
       </section>
     </>
