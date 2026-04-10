@@ -1,4 +1,3 @@
-import StickyTabs from "../_components/StickyTabs";
 
 type Comp = {
   complication: string;
@@ -56,7 +55,6 @@ const complications: Comp[] = [
 export default function LapCholeComplicationsPage() {
   return (
     <>
-      <StickyTabs />
 
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Complications</h2>

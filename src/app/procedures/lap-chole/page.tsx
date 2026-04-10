@@ -1,9 +1,7 @@
-import StickyTabs from "./_components/StickyTabs";
 
 export default function LapCholeOverviewPage() {
   return (
     <>
-      <StickyTabs />
 
       <section className="pt-8">
         <h2 className="text-xl font-semibold">One-Minute Overview</h2>

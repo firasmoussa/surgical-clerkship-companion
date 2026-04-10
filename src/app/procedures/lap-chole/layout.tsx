@@ -1,13 +1,16 @@
+import StickyTabs from "./_components/StickyTabs";
+
 export default function LapCholeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="py-4">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Laparoscopic Cholecystectomy</h1>
-        <p className="mt-2 text-sm text-slate-600">
-          Structured operative preparation for medical students.
-        </p>
+    <div className="py-6">
+      <div className="mb-1">
+        <p className="text-xs text-muted mb-1">Procedures</p>
+        <h1 className="font-serif italic text-[26px] text-ink font-normal leading-tight">
+          Laparoscopic cholecystectomy
+        </h1>
       </div>
-      {children}
+      <StickyTabs />
+      <div className="mt-6">{children}</div>
     </div>
   );
 }

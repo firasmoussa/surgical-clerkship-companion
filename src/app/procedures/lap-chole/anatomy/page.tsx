@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import StickyTabs from "../_components/StickyTabs";
 import LapCholeAnatomySVG from "../_components/LapCholeAnatomySVG";
 import LapCholeIntraopView, { STRUCTURE_COLORS } from "../_components/LapCholeIntraopView";
 
@@ -19,130 +18,180 @@ const structures: Structure[] = [
   { name: "Common bile duct (CBD)", note: "Most feared injury in lap chole; confirm CVS before clipping anything." },
   { name: "Inferior liver edge", note: "Forms the superior border of Calot's triangle." },
   { name: "Calot's triangle", note: "Space bounded by CHD (medial), cystic duct (inferior), liver edge (superior). Apex points toward liver." },
-  { name: "Rouvière's sulcus", note: "A 2–5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. It marks the approximate plane of the CBD, which lies inferior and posterior to it. During lap chole, stay superior and anterior to this landmark to avoid CBD injury." },
+  { name: "Rouvière's sulcus", note: "A 2-5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. Marks the approximate plane of the CBD. Stay superior and anterior to this landmark to avoid CBD injury." },
 ];
 
 export default function LapCholeAnatomyPage() {
   const [view, setView] = useState<"illustrated" | "intraop">("illustrated");
   const [selected, setSelected] = useState<string | null>(null);
+  const [checked, setChecked] = useState<Set<string>>(new Set());
 
   const selectedItem = structures.find((s) => s.name === selected);
-  const accentColor = selected ? (STRUCTURE_COLORS[selected] ?? "#0f172a") : null;
+  const accentColor = selected && view === "intraop" ? (STRUCTURE_COLORS[selected] ?? null) : null;
+
+  function toggleChecked(name: string) {
+    setChecked((prev) => {
+      const next = new Set(prev);
+      next.has(name) ? next.delete(name) : next.add(name);
+      return next;
+    });
+  }
 
   return (
-    <>
-      <StickyTabs />
+    <div className="grid gap-6 lg:grid-cols-3">
 
-      <section className="pt-8">
-        <h2 className="text-xl font-semibold">Relevant Anatomy</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600">
-          Toggle between illustrated and intraoperative views. Click any structure chip to highlight it on the diagram.
-        </p>
+      {/* Left: image + chips + info card */}
+      <div className="lg:col-span-2 flex flex-col gap-4">
 
         {/* Toggle */}
-        <div className="mt-5 inline-flex rounded-xl border border-slate-200 p-1 text-sm">
+        <div
+          className="inline-flex self-start rounded-[5px] overflow-hidden text-sm"
+          style={{ border: "0.5px solid #C9BBAA" }}
+        >
           <button
             type="button"
             onClick={() => setView("illustrated")}
-            className={[
-              "rounded-lg px-3 py-1.5",
-              view === "illustrated" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-50",
-            ].join(" ")}
+            className={`px-3.5 py-1.5 transition-colors ${
+              view === "illustrated"
+                ? "bg-ochre text-parchment font-medium"
+                : "text-muted hover:text-secondary bg-transparent"
+            }`}
           >
-            Illustrated view
+            Illustrated
           </button>
           <button
             type="button"
             onClick={() => setView("intraop")}
-            className={[
-              "rounded-lg px-3 py-1.5",
-              view === "intraop" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-50",
-            ].join(" ")}
+            className={`px-3.5 py-1.5 transition-colors ${
+              view === "intraop"
+                ? "bg-ochre text-parchment font-medium"
+                : "text-muted hover:text-secondary bg-transparent"
+            }`}
           >
-            Intraoperative view
+            Intraoperative
           </button>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-3">
-          {/* Image panel */}
-          <div className="lg:col-span-2">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <div className="text-xs font-medium text-slate-600">
-                {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view — real OR images"}
-              </div>
+        {/* Image panel */}
+        <div className="rounded-lg border border-border-warm bg-surface p-4">
+          <div className="text-[11px] text-muted mb-3 uppercase tracking-wider">
+            {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view — real OR images"}
+          </div>
+          {view === "illustrated" ? (
+            <LapCholeAnatomySVG selected={selected} />
+          ) : (
+            <LapCholeIntraopView selected={selected} />
+          )}
+        </div>
 
-              {view === "illustrated" ? (
-                <LapCholeAnatomySVG selected={selected} />
-              ) : (
-                <LapCholeIntraopView selected={selected} />
-              )}
-            </div>
+        {/* Chips */}
+        <div className="rounded-lg border border-border-warm p-4">
+          <div className="text-[11px] text-muted uppercase tracking-wider mb-3">
+            Structures to identify
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {structures.map((s) => {
+              const active = selected === s.name;
+              const color = view === "intraop" ? (STRUCTURE_COLORS[s.name] ?? null) : null;
 
-            {/* Structure chips */}
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4">
-              <div className="text-sm font-semibold text-slate-900">Structures you should be able to identify</div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {structures.map((s) => {
-                  const active = selected === s.name;
-                  const color = view === "intraop" ? (STRUCTURE_COLORS[s.name] ?? "#0f172a") : null;
-
-                  return (
-                    <button
-                      key={s.name}
-                      type="button"
-                      onClick={() => setSelected(active ? null : s.name)}
-                      className="rounded-full border px-3 py-1 text-xs transition-colors"
-                      style={
-                        active && color
-                          ? { backgroundColor: color, borderColor: color, color: "#fff" }
-                          : color
-                          ? { borderColor: color, color: color, backgroundColor: "transparent" }
-                          : active
-                          ? { backgroundColor: "#0f172a", borderColor: "#0f172a", color: "#fff" }
-                          : { borderColor: "#e2e8f0", color: "#334155", backgroundColor: "transparent" }
-                      }
-                    >
-                      {s.name}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {selectedItem && (
-                <div
-                  className="mt-4 rounded-xl border p-3 text-sm"
-                  style={{
-                    borderColor: accentColor ?? "#e2e8f0",
-                    backgroundColor: accentColor ? `${accentColor}12` : "#f8fafc",
-                  }}
+              return (
+                <button
+                  key={s.name}
+                  type="button"
+                  onClick={() => setSelected(active ? null : s.name)}
+                  className="rounded-full px-3 py-1 text-xs transition-colors border"
+                  style={
+                    active && color
+                      ? { backgroundColor: color, borderColor: color, color: "#fff" }
+                      : color
+                      ? { borderColor: color, color: color, backgroundColor: "transparent" }
+                      : active
+                      ? { backgroundColor: "#C17B2F", borderColor: "#C17B2F", color: "#F5EFE4" }
+                      : { borderColor: "#C9BBAA", color: "#6B5E50", backgroundColor: "transparent" }
+                  }
                 >
-                  <div
-                    className="font-medium"
-                    style={{ color: accentColor ?? "#0f172a" }}
-                  >
-                    {selectedItem.name}
-                  </div>
-                  <div className="mt-1 text-slate-700">{selectedItem.note}</div>
-                </div>
-              )}
-            </div>
+                  {s.name}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Checklist */}
-          <div className="rounded-2xl border border-slate-200 p-4">
-            <div className="text-sm font-semibold text-slate-900">Checklist</div>
-            <p className="mt-1 text-xs text-slate-600">Quick self-check before scrubbing.</p>
-            <div className="mt-4 space-y-3">
-              {structures.map((s) => (
-                <label key={s.name} className="flex items-start gap-2 text-sm text-slate-700">
-                  <input type="checkbox" className="mt-1" />
-                  <span>{s.name}</span>
-                </label>
-              ))}
+          {/* Info card */}
+          {selectedItem && (
+            <div
+              className="mt-4 rounded-md border-l-[3px] p-3"
+              style={{
+                borderLeftColor: accentColor ?? "#C17B2F",
+                backgroundColor: "#EDE5D8",
+              }}
+            >
+              <div className="text-[10px] text-muted uppercase tracking-wider mb-1">
+                Selected structure
+              </div>
+              <div className="font-serif italic text-[16px] text-ink mb-1">
+                {selectedItem.name}
+              </div>
+              <p className="text-[13px] text-secondary leading-relaxed">
+                {selectedItem.note}
+              </p>
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* Right: checklist */}
+      <div className="rounded-lg border border-border-warm p-4 self-start">
+        <div className="flex items-center justify-between mb-1">
+          <div className="text-[11px] text-muted uppercase tracking-wider">
+            Pre-scrub checklist
+          </div>
+          <div className="text-[11px] text-ochre font-medium">
+            {checked.size} / {structures.length}
           </div>
         </div>
-      </section>
-    </>
+        <p className="text-[11.5px] text-muted mb-4">
+          Can you identify each structure?
+        </p>
+
+        <div className="flex flex-col">
+          {structures.map((s) => {
+            const done = checked.has(s.name);
+            return (
+              <div
+                key={s.name}
+                onClick={() => toggleChecked(s.name)}
+                className="flex items-center gap-2.5 py-2 cursor-pointer border-b border-border-warm last:border-0"
+              >
+                <div
+                  className="w-4 h-4 rounded-[3px] flex-shrink-0 flex items-center justify-center transition-colors"
+                  style={{
+                    backgroundColor: done ? "#C17B2F" : "transparent",
+                    border: done ? "none" : "1.5px solid #C9BBAA",
+                  }}
+                >
+                  {done && (
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                      <path d="M1 3L3 5L7 1" stroke="#F5EFE4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </div>
+                <span className={`text-[11.5px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>
+                  {s.name}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CVS callout */}
+        <div className="mt-4 rounded-md p-3 border border-cvs-border bg-cvs-light">
+          <div className="text-[11px] text-cvs font-medium mb-1">CVS criteria</div>
+          <p className="text-[11px] text-cvs leading-snug">
+            Two structures enter the gallbladder, and only two.
+          </p>
+        </div>
+      </div>
+
+    </div>
   );
 }

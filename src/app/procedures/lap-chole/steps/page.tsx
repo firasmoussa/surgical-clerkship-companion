@@ -1,10 +1,8 @@
-import StickyTabs from "../_components/StickyTabs";
 import TooltipTerm from "@/app/components/TooltipTerm";
 
 export default function LapCholeStepsPage() {
   return (
     <>
-      <StickyTabs />
 
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Step-by-Step Overview</h2>

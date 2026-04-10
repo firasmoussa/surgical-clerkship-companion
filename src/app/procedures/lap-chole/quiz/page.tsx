@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import StickyTabs from "../_components/StickyTabs";
 
 type Option = { id: "A" | "B" | "C" | "D"; text: string };
 type Question = {
@@ -184,7 +183,6 @@ export default function LapCholeQuizPage() {
 
   return (
     <>
-      <StickyTabs />
 
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Quiz Yourself</h2>

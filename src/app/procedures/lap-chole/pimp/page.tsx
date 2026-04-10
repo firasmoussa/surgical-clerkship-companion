@@ -1,4 +1,3 @@
-import StickyTabs from "../_components/StickyTabs";
 import Disclosure from "../../../components/Disclosure";
 
 type Level = "Level 1 – Core" | "Level 2 – Expected" | "Level 3 – Advanced";
@@ -164,7 +163,6 @@ function Category({ title, items }: { title: string; items: QA[] }) {
 export default function LapCholePimpPage() {
   return (
     <>
-      <StickyTabs />
 
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Pimp Questions</h2>
