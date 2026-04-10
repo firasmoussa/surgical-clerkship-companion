@@ -1,7 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
 import StickyTabs from "../_components/StickyTabs";
-const QUESTIONS = [
+type Question = { id: string; prompt: string; options: { id: string; text: string }[]; correct: string; explanation: string; };
+const QUESTIONS: Question[] = [
   { id: "q1", prompt: "Which landmark most reliably leads you to the appendiceal base during laparoscopy?", options: [{ id: "A", text: "Ileocecal valve" }, { id: "B", text: "Terminal ileum" }, { id: "C", text: "Taenia coli" }, { id: "D", text: "Psoas muscle" }], correct: "C", explanation: "The three taenia coli converge at the appendiceal base. Following them is the most reliable way to locate the appendix regardless of its position." },
   { id: "q2", prompt: "Approximately what percentage of patients have a retrocecal appendix?", options: [{ id: "A", text: "10%" }, { id: "B", text: "30%" }, { id: "C", text: "50%" }, { id: "D", text: "65%" }], correct: "D", explanation: "Retrocecal is the most common anatomic position (~65%), though it may produce an atypical presentation with flank or back pain." },
   { id: "q3", prompt: "The appendiceal artery is a branch of which vessel?", options: [{ id: "A", text: "Right colic artery" }, { id: "B", text: "Superior mesenteric artery (directly)" }, { id: "C", text: "Ileocolic artery" }, { id: "D", text: "Middle colic artery" }], correct: "C", explanation: "The appendiceal artery branches from the ileocolic artery, a terminal branch of the SMA. It runs within the mesoappendix." },
@@ -13,13 +14,14 @@ const QUESTIONS = [
   { id: "q9", prompt: "What is the appropriate initial management of a periappendiceal abscess in a stable patient?", options: [{ id: "A", text: "Immediate appendectomy" }, { id: "B", text: "Antibiotics alone" }, { id: "C", text: "Percutaneous drainage plus antibiotics, followed by interval appendectomy consideration" }, { id: "D", text: "Laparotomy with right hemicolectomy" }], correct: "C", explanation: "A contained periappendiceal abscess in a stable patient is managed with CT-guided drainage and IV antibiotics. After resolution, interval appendectomy is considered." },
   { id: "q10", prompt: "You encounter gelatinous mucin throughout the peritoneum during an appendectomy. What is the most likely diagnosis?", options: [{ id: "A", text: "Perforated gastric ulcer" }, { id: "B", text: "Pseudomyxoma peritonei from a low-grade appendiceal mucinous neoplasm" }, { id: "C", text: "Mucinous ovarian cystadenoma" }, { id: "D", text: "Ischemic colitis" }], correct: "B", explanation: "Pseudomyxoma peritonei arises from a low-grade appendiceal mucinous neoplasm in ~90% of cases. Stop the operation and get HPB/surgical oncology involved." },
 ];
+type Phase = "answering" | "checked" | "finished";
 export default function LapAppyQuizPage() {
   const questions = useMemo(() => QUESTIONS, []);
   const [idx, setIdx] = useState(0);
-  const [phase, setPhase] = useState("answering");
-  const [selected, setSelected] = useState(null);
+  const [phase, setPhase] = useState<Phase>("answering");
+  const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
-  const [incorrectIds, setIncorrectIds] = useState([]);
+  const [incorrectIds, setIncorrectIds] = useState<string[]>([]);
   const q = questions[idx];
   function submit() {
     if (!selected) return;

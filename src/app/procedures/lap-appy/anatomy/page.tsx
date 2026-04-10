@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import StickyTabs from "../_components/StickyTabs";
-
 const structures = [
   { name: "Appendix", note: "A blind-ended tube arising from the posteromedial cecum. Typically 6-9 cm long. Variable position -- most commonly pelvic or retrocecal." },
   { name: "Appendiceal base", note: "The junction of the appendix and cecum. The clip or staple line is placed here. Confirm healthy tissue at the base before firing." },
@@ -14,8 +12,7 @@ const structures = [
   { name: "Taenia coli", note: "Three longitudinal bands of smooth muscle on the colon wall that converge at the appendiceal base. Following the taenia reliably leads to the appendix." },
   { name: "Retrocecal position", note: "In ~30% of patients the appendix lies behind the cecum. Requires medial rotation of the cecum after incising its lateral peritoneal attachments." },
 ];
-
-const CHIP_COLORS = {
+const CHIP_COLORS: Record<string, string> = {
   "Appendix": "#dc2626",
   "Appendiceal base": "#b91c1c",
   "Mesoappendix": "#d97706",
@@ -26,7 +23,6 @@ const CHIP_COLORS = {
   "Taenia coli": "#92400e",
   "Retrocecal position": "#475569",
 };
-
 const checklistItems = [
   "Identify the cecum",
   "Follow the taenia coli to the appendiceal base",
@@ -36,26 +32,20 @@ const checklistItems = [
   "Confirm the appendix is not retrocecal (or mobilize if it is)",
   "Confirm base is viable before stapling or clipping",
 ];
-
 export default function LapAppyAnatomyPage() {
-  const [selected, setSelected] = useState(null);
-  const [checked, setChecked] = useState({});
-
+  const [selected, setSelected] = useState<string | null>(null);
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
   const selectedItem = structures.find((s) => s.name === selected);
   const accentColor = selected ? (CHIP_COLORS[selected] ?? "#0f172a") : null;
-
-  function toggleCheck(item) {
+  function toggleCheck(item: string) {
     setChecked((prev) => ({ ...prev, [item]: !prev[item] }));
   }
-
   return (
     <>
       <StickyTabs />
       <section className="pt-8">
         <h2 className="text-xl font-semibold">Relevant Anatomy</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600">
-          Click any structure chip to highlight it and read the clinical note.
-        </p>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">Click any structure chip to highlight it and read the clinical note.</p>
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2 space-y-4">
             <div className="rounded-2xl border border-slate-200 p-4">

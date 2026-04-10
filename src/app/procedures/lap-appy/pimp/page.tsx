@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 import StickyTabs from "../_components/StickyTabs";
-const QUESTIONS = [
+type Level = 1 | 2 | 3;
+type Question = { id: string; level: Level; question: string; answer: string; pearl?: string; };
+const QUESTIONS: Question[] = [
   { id: "p1", level: 1, question: "What is the blood supply to the appendix?", answer: "The appendiceal artery, a branch of the ileocolic artery (which comes off the SMA). It runs within the mesoappendix.", pearl: "The ileocolic artery is the terminal branch of the SMA and supplies the cecum, appendix, and terminal ileum." },
   { id: "p2", level: 1, question: "How do you reliably find the appendix laparoscopically?", answer: "Follow the taenia coli to their convergence point on the cecum -- this always leads to the appendiceal base, regardless of appendix position." },
   { id: "p3", level: 1, question: "What is the most common position of the appendix?", answer: "Retrocecal is the most common anatomic position (~65%), followed by pelvic. The pelvic position produces the most classic RLQ presentation.", pearl: "Despite retrocecal being the most common anatomic position, pelvic appendicitis is what most students picture -- know both." },
@@ -16,11 +18,11 @@ const QUESTIONS = [
   { id: "p12", level: 3, question: "The appendix looks completely normal intraoperatively. What is your next step?", answer: "Systematic survey: inspect the terminal ileum for Meckel's diverticulum, mesentery for lymph nodes, right ovary and tube in females, terminal ileum for Crohn's, sigmoid for diverticulitis. Remove the appendix regardless." },
   { id: "p13", level: 3, question: "What is pseudomyxoma peritonei and what is its relation to the appendix?", answer: "A syndrome of mucin accumulation in the peritoneal cavity, arising from a low-grade appendiceal mucinous neoplasm (LAMN) in ~90% of cases. Treatment is cytoreductive surgery + HIPEC.", pearl: "If you see gelatinous mucin throughout the peritoneum intraop -- stop and get HPB/surgical oncology involved." },
 ];
-const LEVEL_COLORS = { 1: "#16a34a", 2: "#2563eb", 3: "#9333ea" };
-const LEVEL_LABELS = { 1: "Level 1 -- Know Cold", 2: "Level 2 -- Know Well", 3: "Level 3 -- Impress the Attending" };
+const LEVEL_COLORS: Record<Level, string> = { 1: "#16a34a", 2: "#2563eb", 3: "#9333ea" };
+const LEVEL_LABELS: Record<Level, string> = { 1: "Level 1 -- Know Cold", 2: "Level 2 -- Know Well", 3: "Level 3 -- Impress the Attending" };
 export default function LapAppyPimpPage() {
-  const [open, setOpen] = useState(null);
-  const [filter, setFilter] = useState(null);
+  const [open, setOpen] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Level | null>(null);
   const filtered = filter ? QUESTIONS.filter((q) => q.level === filter) : QUESTIONS;
   return (
     <>
@@ -30,7 +32,7 @@ export default function LapAppyPimpPage() {
         <p className="mt-2 max-w-2xl text-sm text-slate-600">Click a question to reveal the answer. Filter by level if you want to focus.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <button type="button" onClick={() => setFilter(null)} className={["rounded-full border px-3 py-1 text-xs transition-colors", filter === null ? "bg-slate-900 border-slate-900 text-white" : "border-slate-200 text-slate-600 hover:bg-slate-50"].join(" ")}>All</button>
-          {[1, 2, 3].map((lvl) => (
+          {([1, 2, 3] as Level[]).map((lvl) => (
             <button key={lvl} type="button" onClick={() => setFilter(filter === lvl ? null : lvl)} className="rounded-full border px-3 py-1 text-xs transition-colors" style={filter === lvl ? { backgroundColor: LEVEL_COLORS[lvl], borderColor: LEVEL_COLORS[lvl], color: "#fff" } : { borderColor: LEVEL_COLORS[lvl], color: LEVEL_COLORS[lvl], backgroundColor: "transparent" }}>{LEVEL_LABELS[lvl]}</button>
           ))}
         </div>
