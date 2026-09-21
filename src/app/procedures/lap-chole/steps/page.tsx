@@ -1,3 +1,5 @@
+import TooltipTerm from "@/app/components/TooltipTerm";
+
 const steps = [
   {
     title: "Establish pneumoperitoneum and place ports.",
@@ -15,8 +17,12 @@ const steps = [
     title: "Confirm all three Critical View of Safety criteria.",
     body: "Pause before placing any clip or dividing the cystic duct or artery. Confirm all three criteria together:",
     criteria: [
-      "The hepatocystic triangle is cleared of fat and fibrous tissue.",
-      "The lower third of the gallbladder is separated from the cystic plate, exposing the plate.",
+      <>
+        The <TooltipTerm term="hepatocystic triangle" definition="The hepatocystic triangle is defined as the triangle formed by the cystic duct, the common hepatic duct, and inferior edge of the liver." /> is cleared of fat and fibrous tissue.
+      </>,
+      <>
+        The lower third of the gallbladder is separated from the <TooltipTerm term="cystic plate" definition="The cystic plate is also known as liver bed of the gallbladder and lies in the gallbladder fossa." />, exposing the plate.
+      </>,
       "Only two structures are seen entering the gallbladder: the cystic duct and cystic artery.",
     ],
   },
@@ -62,7 +68,7 @@ export default function LapCholeStepsPage() {
                 <div className="mt-3 rounded-md border border-cvs-border bg-cvs-light p-4 text-[14px] text-cvs leading-relaxed">
                   <div className="font-medium">CVS checkpoint: all three required</div>
                   <ol className="mt-2 list-decimal space-y-2 pl-5">
-                    {step.criteria.map((criterion) => <li key={criterion}>{criterion}</li>)}
+                    {step.criteria.map((criterion, criterionIndex) => <li key={criterionIndex}>{criterion}</li>)}
                   </ol>
                   <p className="mt-3 font-medium">Seeing two structures alone is not sufficient to establish CVS.</p>
                   <a className="mt-2 inline-block text-[12px] underline underline-offset-4" href="https://www.sages.org/safe-cholecystectomy-program/">
