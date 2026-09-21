@@ -21,14 +21,14 @@ export default function LapCholeAtlasPreviewPage() {
       <div className="mb-4 inline-flex overflow-hidden rounded-[5px] border border-border-warm" aria-label="Illustration version">
         {(["atlas", "current"] as const).map((value) => (
           <button key={value} type="button" aria-pressed={version === value} onClick={() => setVersion(value)} className={`px-3.5 py-1.5 text-[13px] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink ${version === value ? "bg-ochre text-parchment font-medium" : "text-secondary hover:bg-surface"}`}>
-            {value === "atlas" ? "Atlas preview" : "Current illustration"}
+            {value === "atlas" ? "Atlas preview" : "Previous illustration"}
           </button>
         ))}
       </div>
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_240px]">
         <figure className="min-w-0 self-start rounded-lg border border-border-warm bg-surface p-4">
           <figcaption className="mb-3 flex items-center justify-between gap-3 text-[11px] text-muted uppercase tracking-wider">
-            <span>{version === "atlas" ? "Warm atlas illustration" : "Existing illustration"}</span>
+            <span>{version === "atlas" ? "Warm atlas illustration" : "Previous illustration"}</span>
             <span>Lap chole</span>
           </figcaption>
           <button type="button" aria-pressed={enlarged} onClick={() => setEnlarged((previous) => !previous)} className="mb-3 rounded-[6px] border border-border-warm px-3 py-1.5 text-[12px] text-secondary focus-visible:outline-2 focus-visible:outline-ochre sm:hidden">{enlarged ? "Fit illustration" : "Enlarge illustration"}</button>

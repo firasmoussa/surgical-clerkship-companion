@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import LapCholeAnatomySVG from "../_components/LapCholeAnatomySVG";
+import LapCholeAtlasSVG from "../_components/LapCholeAtlasSVG";
 import LapCholeIntraopView, { STRUCTURE_COLORS } from "../_components/LapCholeIntraopView";
 
 type Structure = {
@@ -78,7 +78,7 @@ export default function LapCholeAnatomyPage() {
             {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view — real OR images"}
           </div>
           {view === "illustrated" ? (
-            <LapCholeAnatomySVG selected={selected} />
+            <LapCholeAtlasSVG selected={selected} />
           ) : (
             <LapCholeIntraopView selected={selected} />
           )}
