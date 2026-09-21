@@ -14,7 +14,7 @@ export default function TooltipTerm({ term, definition }: TooltipTermProps) {
     <span className="relative inline-block">
       <button
         type="button"
-        className="underline decoration-dotted underline-offset-4 text-slate-900 hover:text-slate-700"
+        className="underline decoration-dotted underline-offset-4 text-ink hover:text-secondary"
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         onFocus={() => setOpen(true)}
@@ -28,9 +28,9 @@ export default function TooltipTerm({ term, definition }: TooltipTermProps) {
       {open && (
         <span
           role="tooltip"
-          className="absolute left-0 top-full z-20 mt-2 w-72 rounded-xl border border-slate-200 bg-white p-3 text-xs text-slate-700 shadow-lg"
+          className="absolute left-0 top-full z-20 mt-2 w-72 rounded-xl border border-border-warm bg-white p-3 text-xs text-secondary shadow-lg"
         >
-          <span className="font-medium text-slate-900">{term}:</span> {definition}
+          <span className="font-medium text-ink">{term}:</span> {definition}
         </span>
       )}
     </span>

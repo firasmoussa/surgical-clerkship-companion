@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
@@ -16,21 +17,22 @@ export default function StickyTabs() {
 
   return (
     <div className="sticky top-0 z-10 bg-parchment border-b border-border-warm">
-      <div className="-mb-px flex gap-0 overflow-x-auto">
+      <div className="-mb-px flex gap-1 overflow-x-auto">
         {tabs.map((t) => {
           const active = pathname === t.href;
           return (
-            <a
+            <Link
               key={t.href}
               href={t.href}
-              className={`whitespace-nowrap border-b-2 px-4 py-3 text-[13px] transition-colors ${
+              aria-current={active ? "page" : undefined}
+              className={`whitespace-nowrap border-b-2 px-4 py-3 text-[14px] transition-colors ${
                 active
                   ? "border-ochre text-ochre font-medium"
-                  : "border-transparent text-muted hover:text-secondary"
+                  : "border-transparent text-secondary hover:text-ink"
               }`}
             >
               {t.label}
-            </a>
+            </Link>
           );
         })}
       </div>

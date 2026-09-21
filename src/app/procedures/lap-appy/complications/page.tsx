@@ -13,13 +13,13 @@ export default function LapAppyComplicationsPage() {
   return (
     <>
       <section className="pt-8">
-        <h2 className="font-serif italic text-[20px] text-ink font-normal">Complications</h2>
-        <p className="mt-2 max-w-3xl text-[13px] text-secondary leading-relaxed">
+        <h2 className="font-sans tracking-tight text-[20px] text-ink font-semibold">Complications</h2>
+        <p className="mt-2 max-w-3xl text-[14px] text-secondary leading-relaxed">
           Complication risk rises significantly with perforation and delayed presentation. Always review the final pathology report.
         </p>
 
-        <div className="mt-6 overflow-x-auto rounded-lg border border-border-warm">
-          <table className="w-full text-left text-[12.5px]">
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-border-warm bg-card">
+          <table className="w-full text-left text-[14px]">
             <thead>
               <tr className="bg-surface border-b border-border-warm">
                 <th className="px-4 py-3 text-[11px] text-muted uppercase tracking-wider font-medium">Complication</th>

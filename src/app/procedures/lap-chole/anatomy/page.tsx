@@ -45,8 +45,8 @@ export default function LapCholeAnatomyPage() {
 
         {/* Toggle */}
         <div
-          className="inline-flex self-start rounded-[5px] overflow-hidden text-sm"
-          style={{ border: "0.5px solid #C9BBAA" }}
+          className="inline-flex self-start rounded-lg overflow-hidden text-sm"
+          style={{ border: "0.5px solid var(--color-border-warm)" }}
         >
           <button
             type="button"
@@ -73,7 +73,7 @@ export default function LapCholeAnatomyPage() {
         </div>
 
         {/* Image panel */}
-        <div className="rounded-lg border border-border-warm bg-surface p-4">
+        <div className="rounded-2xl border border-border-warm bg-card p-4">
           <div className="text-[11px] text-muted mb-3 uppercase tracking-wider">
             {view === "illustrated" ? "Illustrated anatomy" : "Intraoperative view — real OR images"}
           </div>
@@ -85,7 +85,7 @@ export default function LapCholeAnatomyPage() {
         </div>
 
         {/* Chips */}
-        <div className="rounded-lg border border-border-warm p-4">
+        <div className="rounded-2xl border border-border-warm bg-card p-4">
           <div className="text-[11px] text-muted uppercase tracking-wider mb-3">
             Structures to identify
           </div>
@@ -106,8 +106,8 @@ export default function LapCholeAnatomyPage() {
                       : color
                       ? { borderColor: color, color: color, backgroundColor: "transparent" }
                       : active
-                      ? { backgroundColor: "#C17B2F", borderColor: "#C17B2F", color: "#F5EFE4" }
-                      : { borderColor: "#C9BBAA", color: "#6B5E50", backgroundColor: "transparent" }
+                      ? { backgroundColor: "var(--color-ochre)", borderColor: "var(--color-ochre)", color: "var(--color-parchment)" }
+                      : { borderColor: "var(--color-border-warm)", color: "var(--color-secondary)", backgroundColor: "transparent" }
                   }
                 >
                   {s.name}
@@ -121,17 +121,17 @@ export default function LapCholeAnatomyPage() {
             <div
               className="mt-4 rounded-md border-l-[3px] p-3"
               style={{
-                borderLeftColor: accentColor ?? "#C17B2F",
-                backgroundColor: "#EDE5D8",
+                borderLeftColor: accentColor ?? "var(--color-ochre)",
+                backgroundColor: "var(--color-surface)",
               }}
             >
               <div className="text-[10px] text-muted uppercase tracking-wider mb-1">
                 Selected structure
               </div>
-              <div className="font-serif italic text-[16px] text-ink mb-1">
+              <div className="font-sans tracking-tight text-[16px] text-ink mb-1">
                 {selectedItem.name}
               </div>
-              <p className="text-[13px] text-secondary leading-relaxed">
+              <p className="text-[14px] text-secondary leading-relaxed">
                 {selectedItem.note}
               </p>
             </div>
@@ -140,7 +140,7 @@ export default function LapCholeAnatomyPage() {
       </div>
 
       {/* Right: checklist */}
-      <div className="rounded-lg border border-border-warm p-4 self-start">
+      <div className="rounded-2xl border border-border-warm bg-card p-4 self-start">
         <div className="flex items-center justify-between mb-1">
           <div className="text-[11px] text-muted uppercase tracking-wider">
             Pre-scrub checklist
@@ -149,7 +149,7 @@ export default function LapCholeAnatomyPage() {
             {checked.size} / {structures.length}
           </div>
         </div>
-        <p className="text-[11.5px] text-muted mb-4">
+        <p className="text-[13px] text-muted mb-4">
           Can you identify each structure?
         </p>
 
@@ -165,17 +165,17 @@ export default function LapCholeAnatomyPage() {
                 <div
                   className="w-4 h-4 rounded-[3px] flex-shrink-0 flex items-center justify-center transition-colors"
                   style={{
-                    backgroundColor: done ? "#C17B2F" : "transparent",
-                    border: done ? "none" : "1.5px solid #C9BBAA",
+                    backgroundColor: done ? "var(--color-ochre)" : "transparent",
+                    border: done ? "none" : "1.5px solid var(--color-border-warm)",
                   }}
                 >
                   {done && (
                     <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
-                      <path d="M1 3L3 5L7 1" stroke="#F5EFE4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M1 3L3 5L7 1" stroke="var(--color-parchment)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   )}
                 </div>
-                <span className={`text-[11.5px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>
+                <span className={`text-[13px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>
                   {s.name}
                 </span>
               </div>

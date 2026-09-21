@@ -1,20 +1,24 @@
 @import "tailwindcss";
+
 @theme inline {
-  --color-parchment:    #F5EFE4;
-  --color-surface:      #EDE5D8;
-  --color-border-warm:  #C9BBAA;
-  --color-charcoal:     #2A2520;
-  --color-ink:          #1C1A17;
-  --color-secondary:    #6B5E50;
-  --color-muted:        #9E8E7E;
-  --color-ochre:        #C17B2F;
-  --color-cvs:          #3D6B4F;
-  --color-cvs-light:    #D4E8DC;
-  --color-cvs-border:   #93C4A9;
-  --color-danger:       #8B3A3A;
+  --color-parchment: #FAF9F6;
+  --color-surface: #F0EEE8;
+  --color-card: #FFFFFF;
+  --color-border-warm: #E0DED7;
+  --color-charcoal: #24272D;
+  --color-ink: #24272D;
+  --color-secondary: #5E646C;
+  --color-muted: #727780;
+  --color-ochre: #9B642A;
+  --color-accent-soft: #F6EADB;
+  --color-atlas: #F5EFE4;
+  --color-cvs: #3D6B4F;
+  --color-cvs-light: #EAF3ED;
+  --color-cvs-border: #B7D3BF;
+  --color-danger: #8B3A3A;
 
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-atlas);
 }
 
 body {
@@ -22,4 +26,16 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-ochre);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
 }

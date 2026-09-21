@@ -23,47 +23,51 @@ A web app for medical students on their surgery clerkship. Built by Firas Moussa
 ## Design System
 
 ### Philosophy
-Warm surgical atlas aesthetic. Feels like a Netter anatomy book — premium reference, not a cramped study tool.
+Warm modern interface, approved September 21, 2026. Use ivory backgrounds, white cards, muted amber accents, clean Geist typography, and generous spacing. Keep the illustrated anatomy in its established atlas style.
 
 ### Colors (defined in `globals.css` via `@theme inline`)
 | Token | Hex | Usage |
 |---|---|---|
-| `parchment` | `#F5EFE4` | Page background |
-| `surface` | `#EDE5D8` | Cards, image panels |
-| `border-warm` | `#C9BBAA` | All borders |
-| `charcoal` | `#2A2520` | Nav background |
-| `ink` | `#1C1A17` | Primary text |
-| `secondary` | `#6B5E50` | Body copy |
-| `muted` | `#9E8E7E` | Labels, hints |
-| `ochre` | `#C17B2F` | Primary action color — active tabs, selected chips, checkboxes, CTAs |
+| `parchment` | `#FAF9F6` | Page background |
+| `card` | `#FFFFFF` | Card and header backgrounds |
+| `accent-soft` | `#F6EADB` | Selected navigation and subtle accents |
+| `atlas` | `#F5EFE4` | Illustrated SVG canvas |
+| `surface` | `#F0EEE8` | Cards, image panels |
+| `border-warm` | `#E0DED7` | All borders |
+| `charcoal` | `#24272D` | Strong neutral / hover states |
+| `ink` | `#24272D` | Primary text |
+| `secondary` | `#5E646C` | Body copy |
+| `muted` | `#727780` | Labels, hints |
+| `ochre` | `#9B642A` | Primary action color — active tabs, selected chips, checkboxes, CTAs |
 | `cvs` | `#3D6B4F` | CVS/safety elements only |
-| `cvs-light` | `#D4E8DC` | CVS callout background |
-| `cvs-border` | `#93C4A9` | CVS callout border |
+| `cvs-light` | `#EAF3ED` | CVS callout background |
+| `cvs-border` | `#B7D3BF` | CVS callout border |
 | `danger` | `#8B3A3A` | Danger/complication accents |
 
 ### Typography
-- **Serif (Playfair Display):** procedure titles, structure names, page headings — always italic, `font-normal`
-- **Sans (Geist):** all UI chrome, body copy, labels
-- Procedure titles: `font-serif italic text-[26px] text-ink font-normal`
-- Section headings: `font-serif italic text-[20px] text-ink font-normal`
-- Body: `text-[13px] text-secondary leading-relaxed`
+- **Sans (Geist):** page headings, procedure titles, structure notes, and interface text. Headings use `font-semibold tracking-tight`.
+- **Serif (Playfair Display):** illustrated SVG labels only; preserve the atlas typography inside diagrams.
+- **Body:** Geist for body copy and labels.
+- Procedure titles: `font-sans tracking-tight text-[30px] text-ink font-semibold`
+- Section headings: `font-sans tracking-tight text-[20px] text-ink font-semibold`
+- Body: `text-[14px] text-secondary leading-relaxed`
 - Labels/caps: `text-[11px] text-muted uppercase tracking-wider`
 
 ### Components
 
 **Cards**
 ```tsx
-<div className="rounded-lg border border-border-warm p-4">
+<div className="rounded-2xl border border-border-warm bg-card p-5">
 ```
 
 **Info card with left border accent**
 ```tsx
-<div className="rounded-md border-l-[3px] p-3" style={{ borderLeftColor: "#C17B2F", backgroundColor: "#EDE5D8" }}>
+<div className="rounded-md border-l-[3px] p-3" style={{ borderLeftColor: "#9B642A", backgroundColor: "#F0EEE8" }}>
 ```
 
 **Toggle (illustrated / intraoperative)**
 ```tsx
-<div className="inline-flex self-start rounded-[5px] overflow-hidden text-sm" style={{ border: "0.5px solid #C9BBAA" }}>
+<div className="inline-flex self-start rounded-[5px] overflow-hidden text-sm" style={{ border: "0.5px solid #E0DED7" }}>
   <button className={`px-3.5 py-1.5 transition-colors ${active ? "bg-ochre text-parchment font-medium" : "text-muted hover:text-secondary bg-transparent"}`}>
 ```
 
@@ -76,9 +80,9 @@ Warm surgical atlas aesthetic. Feels like a Netter anatomy book — premium refe
 ```tsx
 <div
   className="w-4 h-4 rounded-[3px] flex-shrink-0 flex items-center justify-center transition-colors"
-  style={{ backgroundColor: done ? "#C17B2F" : "transparent", border: done ? "none" : "1.5px solid #C9BBAA" }}
+  style={{ backgroundColor: done ? "#9B642A" : "transparent", border: done ? "none" : "1.5px solid #E0DED7" }}
 >
-  {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="#F5EFE4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+  {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="#FAF9F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 </div>
 ```
 Never use native `<input type="checkbox" />`.
@@ -101,9 +105,9 @@ Never use native `<input type="checkbox" />`.
 - Level 3 Advanced: `text-danger border-danger bg-surface`
 
 **Buttons**
-- Primary: `bg-ochre text-parchment rounded-[6px] px-4 py-2 text-[13px] font-medium`
-- Outline: `border border-ochre text-ochre rounded-[6px] px-4 py-2 text-[13px]`
-- Ghost: `border border-border-warm text-secondary rounded-[6px] px-4 py-2 text-[13px]`
+- Primary: `bg-ochre text-parchment rounded-[6px] px-4 py-2 text-[14px] font-medium`
+- Outline: `border border-ochre text-ochre rounded-[6px] px-4 py-2 text-[14px]`
+- Ghost: `border border-border-warm text-secondary rounded-[6px] px-4 py-2 text-[14px]`
 
 **Tables**
 ```tsx
@@ -125,8 +129,8 @@ Alternating rows: `i % 2 === 0 ? "bg-parchment" : "bg-surface"`
     {i < steps.length - 1 && <div className="w-px flex-1 bg-border-warm mt-1" />}
   </div>
   <div className="pt-0.5">
-    <div className="text-[13px] font-medium text-ink">{step.title}</div>
-    <div className="text-[13px] text-secondary leading-relaxed">{step.body}</div>
+    <div className="text-[14px] font-medium text-ink">{step.title}</div>
+    <div className="text-[14px] text-secondary leading-relaxed">{step.body}</div>
   </div>
 </div>
 ```
@@ -139,7 +143,7 @@ Alternating rows: `i % 2 === 0 ? "bg-parchment" : "bg-surface"`
 src/
   app/
     globals.css                         -- design tokens (@theme inline)
-    layout.tsx                          -- global shell: charcoal nav + footer
+    layout.tsx                          -- global shell: light navigation + footer
     page.tsx                            -- home page
     procedures/
       lap-chole/
@@ -168,7 +172,7 @@ src/
 ```
 
 ### Layout hierarchy
-- `layout.tsx` (root) -- nav + footer shell, max-w-5xl container
+- `layout.tsx` (root) -- navigation + footer shell, max-w-6xl container
 - `procedures/lap-chole/layout.tsx` -- procedure title + StickyTabs
 - Individual `page.tsx` files -- content only, no repeated headers or tabs
 

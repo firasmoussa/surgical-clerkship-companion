@@ -92,20 +92,20 @@ export default function SubmitPage() {
   }
 
   return (
-    <div className="py-10">
+    <div className="max-w-3xl py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Submit a Pimp Question</h1>
-      <p className="mt-3 max-w-2xl text-slate-600">
+      <p className="mt-3 max-w-2xl text-secondary">
         Help build a student-first resource. Please keep submissions de-identified and focused on learning.
       </p>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 p-6">
+      <div className="mt-6 rounded-2xl border border-border-warm bg-card p-6 sm:p-8">
         {!submitted ? (
           <form onSubmit={onSubmit} className="space-y-5">
             {/* Honeypot (hidden anti-spam field) */}
             <div className="hidden">
-              <label className="text-sm font-medium text-slate-900">Website</label>
+              <label className="text-sm font-medium text-ink">Website</label>
               <input
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 value={honeypot}
                 onChange={(e) => setHoneypot(e.target.value)}
                 autoComplete="off"
@@ -114,9 +114,9 @@ export default function SubmitPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-900">Procedure</label>
+              <label className="text-sm font-medium text-ink">Procedure</label>
               <select
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 value={form.procedure}
                 onChange={(e) => update("procedure", e.target.value)}
               >
@@ -129,9 +129,9 @@ export default function SubmitPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-900">Question</label>
+              <label className="text-sm font-medium text-ink">Question</label>
               <textarea
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={3}
                 placeholder="What were you asked?"
                 value={form.question}
@@ -141,11 +141,11 @@ export default function SubmitPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-900">
+              <label className="text-sm font-medium text-ink">
                 Student-level Answer (optional)
               </label>
               <textarea
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={3}
                 placeholder="What’s the best concise student answer?"
                 value={form.answer}
@@ -154,9 +154,9 @@ export default function SubmitPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-900">Context (optional)</label>
+              <label className="text-sm font-medium text-ink">Context (optional)</label>
               <textarea
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={2}
                 placeholder="When was it asked? What part of the case?"
                 value={form.context}
@@ -165,9 +165,9 @@ export default function SubmitPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-900">Tags (optional)</label>
+              <label className="text-sm font-medium text-ink">Tags (optional)</label>
               <input
-                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 placeholder="anatomy, complications, CVS (comma-separated)"
                 value={form.tags}
                 onChange={(e) => update("tags", e.target.value)}
@@ -182,7 +182,7 @@ export default function SubmitPage() {
                 checked={form.anonymous}
                 onChange={(e) => update("anonymous", e.target.checked)}
               />
-              <label htmlFor="anon" className="text-sm text-slate-700">
+              <label htmlFor="anon" className="text-sm text-secondary">
                 Keep my submission anonymous
               </label>
             </div>
@@ -198,18 +198,18 @@ export default function SubmitPage() {
               disabled={loading}
               className={[
                 "rounded-xl px-4 py-2 text-sm font-medium text-white",
-                loading ? "bg-slate-400" : "bg-slate-900 hover:bg-slate-800",
+                loading ? "bg-muted" : "bg-ochre hover:bg-charcoal",
               ].join(" ")}
             >
               {loading ? "Submitting..." : "Submit"}
             </button>
 
-            <p className="text-xs text-slate-500">Please do not include patient identifiers.</p>
+            <p className="text-xs text-muted">Please do not include patient identifiers.</p>
           </form>
         ) : (
           <div>
-            <div className="text-lg font-semibold text-slate-900">Thanks — submitted.</div>
-            <p className="mt-2 text-sm text-slate-600">
+            <div className="text-lg font-semibold text-ink">Thanks — submitted.</div>
+            <p className="mt-2 text-sm text-secondary">
               Your question has been received and will be reviewed before inclusion.
             </p>
 
@@ -217,14 +217,14 @@ export default function SubmitPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+                className="rounded-xl bg-ochre px-4 py-2 text-sm font-medium text-white hover:bg-charcoal"
               >
                 Submit another
               </button>
 
               <a
                 href="/procedures/lap-chole"
-                className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50"
+                className="rounded-xl border border-border-warm px-4 py-2 text-sm font-medium hover:bg-surface"
               >
                 Back to Lap Chole
               </a>

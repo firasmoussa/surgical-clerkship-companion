@@ -23,15 +23,15 @@ export default function LapAppyAnatomyPage() {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 min-w-0 flex flex-col gap-4">
-        <div className="self-start rounded-[5px] border border-ochre bg-ochre px-3.5 py-1.5 text-sm font-medium text-parchment">Illustrated</div>
-        <figure className="rounded-lg border border-border-warm bg-surface p-4">
+        <div className="self-start rounded-lg border border-ochre bg-ochre px-3.5 py-1.5 text-sm font-medium text-parchment">Illustrated</div>
+        <figure className="rounded-2xl border border-border-warm bg-card p-4">
           <figcaption className="text-[11px] text-muted mb-3 uppercase tracking-wider">Illustrated anatomy</figcaption>
           <button
             type="button"
             aria-pressed={enlarged}
             aria-controls="anatomy-illustration"
             onClick={() => setEnlarged((previous) => !previous)}
-            className="mb-3 rounded-[6px] border border-border-warm px-3 py-1.5 text-[12px] text-secondary focus-visible:outline-2 focus-visible:outline-ochre sm:hidden"
+            className="mb-3 rounded-lg border border-border-warm px-3 py-1.5 text-[12px] text-secondary focus-visible:outline-2 focus-visible:outline-ochre sm:hidden"
           >
             {enlarged ? "Fit illustration" : "Enlarge illustration"}
           </button>
@@ -43,7 +43,7 @@ export default function LapAppyAnatomyPage() {
           {enlarged && <p className="mt-2 text-[11px] text-secondary sm:hidden">Scroll horizontally to explore the enlarged illustration.</p>}
           <p className="mt-3 text-[11px] text-secondary leading-relaxed">Schematic, not to scale. Appendix and mesoappendix spread for teaching. The inset shows the alternative retrocecal position.</p>
         </figure>
-        <section aria-labelledby="structure-heading" className="rounded-lg border border-border-warm p-4">
+        <section aria-labelledby="structure-heading" className="rounded-2xl border border-border-warm bg-card p-4">
           <h2 id="structure-heading" className="text-[11px] text-muted uppercase tracking-wider mb-2">Structures to identify</h2>
           <p className="mb-3 text-[12px] text-secondary">Select a structure to highlight it. Select it again to show all anatomy.</p>
           <div className="flex flex-wrap gap-2">
@@ -53,27 +53,27 @@ export default function LapAppyAnatomyPage() {
           </div>
           <div id="structure-note" aria-live="polite" aria-atomic="true" className="mt-4 rounded-md border-l-[3px] border-ochre bg-surface p-3">
             <div className="text-[10px] text-muted uppercase tracking-wider mb-1">{selectedItem ? "Selected structure" : "Orientation"}</div>
-            <h3 className="font-serif italic font-normal text-[16px] text-ink mb-1">{selectedItem?.name ?? "Find the base first"}</h3>
-            <p className="text-[13px] text-secondary leading-relaxed">{selectedItem?.note ?? "Follow the taenia coli toward their convergence at the appendiceal base, then trace the appendix and its mesoappendix."}</p>
+            <h3 className="font-sans tracking-tight font-semibold text-[16px] text-ink mb-1">{selectedItem?.name ?? "Find the base first"}</h3>
+            <p className="text-[14px] text-secondary leading-relaxed">{selectedItem?.note ?? "Follow the taenia coli toward their convergence at the appendiceal base, then trace the appendix and its mesoappendix."}</p>
           </div>
         </section>
         <p className="text-[11px] text-muted leading-relaxed">Anatomy reference: <a className="underline underline-offset-2 hover:text-secondary" href="https://www.ncbi.nlm.nih.gov/books/NBK459205/">StatPearls: Anatomy, Abdomen and Pelvis, Appendix</a>. Illustrated view only; no intraoperative photographs are included.</p>
       </div>
-      <aside className="rounded-lg border border-border-warm p-4 self-start" aria-labelledby="checklist-heading">
+      <aside className="rounded-2xl border border-border-warm bg-card p-4 self-start" aria-labelledby="checklist-heading">
         <div className="flex items-center justify-between gap-3 mb-1">
           <h2 id="checklist-heading" className="text-[11px] text-muted uppercase tracking-wider">Pre-scrub checklist</h2>
           <span className="text-[11px] text-ochre font-medium" aria-live="polite">{checked.size} / {structures.length}</span>
         </div>
-        <p className="text-[11.5px] text-muted mb-4">Can you identify each structure and explain its relevance?</p>
+        <p className="text-[13px] text-muted mb-4">Can you identify each structure and explain its relevance?</p>
         <div className="flex flex-col">
           {structures.map((s) => {
             const done = checked.has(s.name);
             return (
               <button key={s.name} type="button" role="checkbox" aria-checked={done} onClick={() => toggleChecked(s.name)} className="flex items-center gap-2.5 py-2.5 text-left border-b border-border-warm last:border-0 focus-visible:outline-2 focus-visible:outline-ochre focus-visible:outline-offset-2">
                 <span aria-hidden="true" className={`w-4 h-4 rounded-[3px] shrink-0 flex items-center justify-center border transition-colors ${done ? "bg-ochre border-ochre" : "border-border-warm"}`}>
-                  {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="#F5EFE4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                  {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="var(--color-parchment)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
                 </span>
-                <span className={`text-[11.5px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>{s.name}</span>
+                <span className={`text-[13px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>{s.name}</span>
               </button>
             );
           })}

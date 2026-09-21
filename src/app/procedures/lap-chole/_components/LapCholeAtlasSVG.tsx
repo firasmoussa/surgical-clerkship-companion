@@ -48,7 +48,7 @@ export default function LapCholeAtlasSVG({ selected }: Props) {
   const gallbladderSelected = active === "Gallbladder fundus" || active === "Infundibulum";
 
   return (
-    <svg viewBox="0 0 760 540" role="img" aria-labelledby={`${id}-title ${id}-description`} className="h-auto w-full rounded-md bg-parchment">
+    <svg viewBox="0 0 760 540" role="img" aria-labelledby={`${id}-title ${id}-description`} className="h-auto w-full rounded-md bg-atlas">
       <title id={`${id}-title`}>Cholecystectomy atlas anatomy{active ? `: ${active} highlighted` : ""}</title>
       <desc id={`${id}-description`}>A schematic of the liver edge, gallbladder, cystic duct and artery, and extrahepatic bile ducts. Labels identify nine landmarks. The liver remains as orientation context while a selected structure is highlighted.</desc>
       <defs>

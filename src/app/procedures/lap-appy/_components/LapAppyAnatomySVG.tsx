@@ -24,7 +24,7 @@ export default function LapAppyAnatomySVG({ selected }: Props) {
   const stroke = (name: AppyStructure, base: string) => selected === name ? "#C17B2F" : base;
 
   return (
-    <svg viewBox="0 0 600 600" role="img" aria-labelledby={`${id}-title ${id}-desc`} className="w-full h-auto rounded-md bg-parchment">
+    <svg viewBox="0 0 600 600" role="img" aria-labelledby={`${id}-title ${id}-desc`} className="w-full h-auto rounded-md bg-atlas">
       <title id={`${id}-title`}>Appendectomy anatomy{selected ? `: ${selected} highlighted` : ""}</title>
       <desc id={`${id}-desc`}>An anterior schematic of the cecum, terminal ileum and exposed appendix. Taenia coli converge at the appendiceal base. The mesoappendix contains the appendiceal artery. A separate inset shows an appendix behind the cecum.</desc>
       <defs>

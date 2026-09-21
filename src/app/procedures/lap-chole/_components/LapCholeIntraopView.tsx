@@ -120,8 +120,8 @@ export default function LapCholeIntraopView({ selected }: { selected: string | n
             className={[
               "rounded-lg border px-3 py-1 text-xs font-medium transition-colors",
               activeSlideId === s.id
-                ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 text-slate-600 hover:bg-slate-50",
+                ? "border-slate-900 bg-ochre text-white"
+                : "border-border-warm text-secondary hover:bg-surface",
             ].join(" ")}
           >
             {s.title}
@@ -130,7 +130,7 @@ export default function LapCholeIntraopView({ selected }: { selected: string | n
       </div>
 
       {/* Image with hotspot overlays */}
-      <div className="relative w-full overflow-hidden rounded-xl border border-slate-200 bg-black">
+      <div className="relative w-full overflow-hidden rounded-xl border border-border-warm bg-black">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={slide.src}
@@ -178,9 +178,9 @@ export default function LapCholeIntraopView({ selected }: { selected: string | n
       </div>
 
       {/* Caption */}
-      <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 text-xs text-slate-600 leading-relaxed">
+      <div className="rounded-xl border border-border-warm bg-surface p-3 text-xs text-secondary leading-relaxed">
         <p>{slide.caption}</p>
-        <p className="mt-2 text-[10px] text-slate-400 italic">{slide.credit}</p>
+        <p className="mt-2 text-[10px] text-muted italic">{slide.credit}</p>
       </div>
     </div>
   );

@@ -37,8 +37,8 @@ export default function LapAppyStepsPage() {
   return (
     <>
       <section className="pt-8">
-        <h2 className="font-serif italic text-[20px] text-ink font-normal">Step-by-Step Overview</h2>
-        <p className="mt-2 max-w-2xl text-[13px] text-secondary leading-relaxed">
+        <h2 className="font-sans tracking-tight text-[20px] text-ink font-semibold">Step-by-Step Overview</h2>
+        <p className="mt-2 max-w-2xl text-[14px] text-secondary leading-relaxed">
           A student-level conceptual overview of the case flow -- not a procedural manual.
         </p>
 
@@ -52,8 +52,8 @@ export default function LapAppyStepsPage() {
                 {i < steps.length - 1 && <div className="w-px flex-1 bg-border-warm mt-1" />}
               </div>
               <div className="pt-0.5">
-                <div className="text-[13px] font-medium text-ink">{step.title}</div>
-                <div className="text-[13px] text-secondary leading-relaxed mt-1">{step.body}</div>
+                <div className="text-[14px] font-medium text-ink">{step.title}</div>
+                <div className="text-[14px] text-secondary leading-relaxed mt-1">{step.body}</div>
               </div>
             </div>
           ))}

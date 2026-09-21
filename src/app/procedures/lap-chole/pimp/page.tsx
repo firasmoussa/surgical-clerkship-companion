@@ -45,8 +45,8 @@ export default function LapCholePimpPage() {
 
   return (
     <section className="pt-8">
-      <h2 className="font-serif italic text-[20px] text-ink font-normal">Pimp Questions</h2>
-      <p className="mt-2 max-w-2xl text-[13px] text-secondary leading-relaxed">
+      <h2 className="font-sans tracking-tight text-[20px] text-ink font-semibold">Pimp Questions</h2>
+      <p className="mt-2 max-w-2xl text-[14px] text-secondary leading-relaxed">
         Click a question to reveal the answer. Filter by level to focus.
       </p>
 
@@ -84,7 +84,7 @@ export default function LapCholePimpPage() {
         {filtered.map((q) => {
           const isOpen = open === q.id;
           return (
-            <div key={q.id} className="rounded-lg border border-border-warm overflow-hidden">
+            <div key={q.id} className="rounded-2xl border border-border-warm bg-card overflow-hidden">
               <button
                 type="button"
                 onClick={() => setOpen(isOpen ? null : q.id)}
@@ -98,7 +98,7 @@ export default function LapCholePimpPage() {
                 >
                   L{q.level}
                 </span>
-                <span className="text-[13px] text-ink flex-1">{q.question}</span>
+                <span className="text-[14px] text-ink flex-1">{q.question}</span>
                 <svg
                   className={["w-4 h-4 text-muted flex-shrink-0 mt-0.5 transition-transform", isOpen ? "rotate-180" : ""].join(" ")}
                   viewBox="0 0 16 16"
@@ -109,11 +109,11 @@ export default function LapCholePimpPage() {
               </button>
               {isOpen && (
                 <div className="px-4 pb-4 border-t border-border-warm bg-surface">
-                  <div className="pt-3 text-[13px] text-secondary leading-relaxed">{q.answer}</div>
+                  <div className="pt-3 text-[14px] text-secondary leading-relaxed">{q.answer}</div>
                   {q.pearl && (
                     <div
                       className="mt-3 rounded-md border-l-[3px] p-3"
-                      style={{ borderLeftColor: "#C17B2F", backgroundColor: "#EDE5D8" }}
+                      style={{ borderLeftColor: "var(--color-ochre)", backgroundColor: "var(--color-surface)" }}
                     >
                       <span className="text-[11px] text-ochre font-medium">Pearl: </span>
                       <span className="text-[12px] text-secondary">{q.pearl}</span>
@@ -127,10 +127,10 @@ export default function LapCholePimpPage() {
       </div>
 
       <div className="mt-8 rounded-lg border border-dashed border-border-warm p-5 text-center">
-        <p className="text-[13px] text-secondary">Have a question that stumped you on rounds?</p>
+        <p className="text-[14px] text-secondary">Have a question that stumped you on rounds?</p>
         <a
           href="/submit"
-          className="mt-3 inline-block bg-ochre text-parchment rounded-[6px] px-4 py-2 text-[13px] font-medium hover:opacity-90 transition-opacity"
+          className="mt-3 inline-block bg-ochre text-parchment rounded-lg px-4 py-2 text-[14px] font-medium hover:opacity-90 transition-opacity"
         >
           Submit a pimp question
         </a>
