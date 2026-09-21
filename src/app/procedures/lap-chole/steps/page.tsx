@@ -8,12 +8,17 @@ const steps = [
     body: "The fundus is retracted superiorly while the infundibulum is pulled laterally. Proper retraction opens Calot's triangle and reduces the risk of bile duct misidentification.",
   },
   {
-    title: "Dissect Calot's triangle.",
+    title: "Dissect the hepatocystic triangle.",
     body: "Fat and fibrous tissue are cleared to skeletonize the cystic duct and cystic artery. Dissect on both the anterior and posterior aspects of the triangle.",
   },
   {
-    title: "Achieve the Critical View of Safety.",
-    body: "The lower third of the gallbladder is dissected off the liver bed, and only two structures should be seen entering the gallbladder before any are clipped or divided.",
+    title: "Confirm all three Critical View of Safety criteria.",
+    body: "Pause before placing any clip or dividing the cystic duct or artery. Confirm all three criteria together:",
+    criteria: [
+      "The hepatocystic triangle is cleared of fat and fibrous tissue.",
+      "The lower third of the gallbladder is separated from the cystic plate, exposing the plate.",
+      "Only two structures are seen entering the gallbladder: the cystic duct and cystic artery.",
+    ],
   },
   {
     title: "Clip and divide the cystic duct.",
@@ -53,6 +58,18 @@ export default function LapCholeStepsPage() {
             <div className="pt-0.5">
               <div className="text-[14px] font-medium text-ink">{step.title}</div>
               <div className="text-[14px] text-secondary leading-relaxed mt-1">{step.body}</div>
+              {step.criteria && (
+                <div className="mt-3 rounded-md border border-cvs-border bg-cvs-light p-4 text-[14px] text-cvs leading-relaxed">
+                  <div className="font-medium">CVS checkpoint: all three required</div>
+                  <ol className="mt-2 list-decimal space-y-2 pl-5">
+                    {step.criteria.map((criterion) => <li key={criterion}>{criterion}</li>)}
+                  </ol>
+                  <p className="mt-3 font-medium">Seeing two structures alone is not sufficient to establish CVS.</p>
+                  <a className="mt-2 inline-block text-[12px] underline underline-offset-4" href="https://www.sages.org/safe-cholecystectomy-program/">
+                    Reference: SAGES Safe Cholecystectomy Program
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))}
