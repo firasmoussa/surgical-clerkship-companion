@@ -28,7 +28,7 @@ const steps = [
   },
   {
     title: "Clip and divide the cystic duct.",
-    body: "Division should only occur once the Critical View is confirmed. Two clips are placed proximally, one distally, then the duct is divided between them.",
+    body: "Division should only occur once the Critical View is confirmed. Clips are placed proximally and distally, then the duct is divided between them.",
   },
   {
     title: "Clip and divide the cystic artery.",
