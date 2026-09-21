@@ -1,94 +1,90 @@
 "use client";
+
 import { useState } from "react";
-const structures = [
-  { name: "Appendix", note: "A blind-ended tube arising from the posteromedial cecum. Typically 6-9 cm long. Variable position -- most commonly pelvic or retrocecal." },
-  { name: "Appendiceal base", note: "The junction of the appendix and cecum. The clip or staple line is placed here. Confirm healthy tissue at the base before firing." },
-  { name: "Mesoappendix", note: "The peritoneal fold attaching the appendix to the mesentery of the terminal ileum. Contains the appendiceal artery." },
-  { name: "Appendiceal artery", note: "A branch of the ileocolic artery, running within the mesoappendix. Division controls the main bleeding risk during appendectomy." },
-  { name: "Terminal ileum", note: "The last segment of small bowel entering the cecum. Must be identified to confirm cecal anatomy. Inspect for Meckel's diverticulum if the appendix looks grossly normal." },
-  { name: "Ileocecal junction", note: "The transition from terminal ileum to cecum. A key orientation landmark -- the appendix arises just distal and inferior to this junction." },
-  { name: "Cecum", note: "The blind pouch of the large intestine where the appendix originates. Mobilization is required to expose retrocecal appendices." },
-  { name: "Taenia coli", note: "Three longitudinal bands of smooth muscle on the colon wall that converge at the appendiceal base. Following the taenia reliably leads to the appendix." },
-  { name: "Retrocecal position", note: "In ~30% of patients the appendix lies behind the cecum. Requires medial rotation of the cecum after incising its lateral peritoneal attachments." },
-];
-const CHIP_COLORS: Record<string, string> = {
-  "Appendix": "#dc2626",
-  "Appendiceal base": "#b91c1c",
-  "Mesoappendix": "#d97706",
-  "Appendiceal artery": "#ef4444",
-  "Terminal ileum": "#7c3aed",
-  "Ileocecal junction": "#6d28d9",
-  "Cecum": "#b45309",
-  "Taenia coli": "#92400e",
-  "Retrocecal position": "#475569",
-};
-const checklistItems = [
-  "Identify the cecum",
-  "Follow the taenia coli to the appendiceal base",
-  "Identify the terminal ileum and ileocecal junction",
-  "Expose the mesoappendix",
-  "Locate the appendiceal artery within the mesoappendix",
-  "Confirm the appendix is not retrocecal (or mobilize if it is)",
-  "Confirm base is viable before stapling or clipping",
-];
+import LapAppyAnatomySVG from "../_components/LapAppyAnatomySVG";
+import { structures, type AppyStructure } from "../_components/anatomy";
+
+// Keep selection independent of the illustration so a licensed photo view can reuse it.
 export default function LapAppyAnatomyPage() {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [enlarged, setEnlarged] = useState(false);
+  const [selected, setSelected] = useState<AppyStructure | null>(null);
+  const [checked, setChecked] = useState<Set<AppyStructure>>(new Set());
   const selectedItem = structures.find((s) => s.name === selected);
-  const accentColor = selected ? (CHIP_COLORS[selected] ?? "#0f172a") : null;
-  function toggleCheck(item: string) {
-    setChecked((prev) => ({ ...prev, [item]: !prev[item] }));
+
+  function toggleChecked(name: AppyStructure) {
+    setChecked((previous) => {
+      const next = new Set(previous);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
   }
+
   return (
-    <>
-      <section className="pt-8">
-        <h2 className="text-xl font-semibold">Relevant Anatomy</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600">Click any structure chip to highlight it and read the clinical note.</p>
-        <div className="mt-6 grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-4">
-            <div className="rounded-2xl border border-slate-200 p-4">
-              <div className="text-sm font-semibold text-slate-900">Structures you should be able to identify</div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {structures.map((s) => {
-                  const active = selected === s.name;
-                  const color = CHIP_COLORS[s.name] ?? "#0f172a";
-                  return (
-                    <button key={s.name} type="button" onClick={() => setSelected(active ? null : s.name)} className="rounded-full border px-3 py-1 text-xs transition-colors" style={active ? { backgroundColor: color, borderColor: color, color: "#fff" } : { borderColor: color, color: color, backgroundColor: "transparent" }}>
-                      {s.name}
-                    </button>
-                  );
-                })}
-              </div>
-              {selectedItem && (
-                <div className="mt-4 rounded-xl border p-3 text-sm" style={{ borderColor: accentColor ?? "#e2e8f0", backgroundColor: accentColor ? `${accentColor}12` : "#f8fafc" }}>
-                  <div className="font-semibold text-slate-900">{selectedItem.name}</div>
-                  <div className="mt-1 text-slate-700 leading-relaxed">{selectedItem.note}</div>
-                </div>
-              )}
-            </div>
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-              <span className="font-semibold">Note: </span>Interactive anatomy diagram coming soon.
+    <div className="grid gap-6 lg:grid-cols-3">
+      <div className="lg:col-span-2 min-w-0 flex flex-col gap-4">
+        <div className="self-start rounded-[5px] border border-ochre bg-ochre px-3.5 py-1.5 text-sm font-medium text-parchment">Illustrated</div>
+        <figure className="rounded-lg border border-border-warm bg-surface p-4">
+          <figcaption className="text-[11px] text-muted mb-3 uppercase tracking-wider">Illustrated anatomy</figcaption>
+          <button
+            type="button"
+            aria-pressed={enlarged}
+            aria-controls="anatomy-illustration"
+            onClick={() => setEnlarged((previous) => !previous)}
+            className="mb-3 rounded-[6px] border border-border-warm px-3 py-1.5 text-[12px] text-secondary focus-visible:outline-2 focus-visible:outline-ochre sm:hidden"
+          >
+            {enlarged ? "Fit illustration" : "Enlarge illustration"}
+          </button>
+          <div id="anatomy-illustration" role="region" aria-label="Anatomy illustration" tabIndex={0} className="overflow-x-auto rounded-md focus-visible:outline-2 focus-visible:outline-ochre">
+            <div className={enlarged ? "w-[600px] sm:w-auto" : "w-full"}>
+              <LapAppyAnatomySVG selected={selected} />
             </div>
           </div>
-          <div className="rounded-2xl border border-slate-200 p-4">
-            <div className="text-sm font-semibold text-slate-900">Pre-scrub checklist</div>
-            <p className="mt-1 text-xs text-slate-500">Can you identify each of these intraoperatively?</p>
-            <ul className="mt-4 space-y-2">
-              {checklistItems.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <button type="button" onClick={() => toggleCheck(item)} className={["mt-0.5 h-4 w-4 flex-shrink-0 rounded border transition-colors", checked[item] ? "bg-slate-900 border-slate-900" : "border-slate-300 bg-white"].join(" ")}>
-                    {checked[item] && <svg viewBox="0 0 12 12" fill="none" className="w-full h-full p-0.5"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                  </button>
-                  <span className={["text-xs leading-snug", checked[item] ? "text-slate-400 line-through" : "text-slate-700"].join(" ")}>{item}</span>
-                </li>
-              ))}
-            </ul>
-            {Object.values(checked).filter(Boolean).length === checklistItems.length && (
-              <div className="mt-4 rounded-xl bg-green-50 border border-green-200 p-3 text-xs text-green-800 font-medium">You are ready to scrub.</div>
-            )}
+          {enlarged && <p className="mt-2 text-[11px] text-secondary sm:hidden">Scroll horizontally to explore the enlarged illustration.</p>}
+          <p className="mt-3 text-[11px] text-secondary leading-relaxed">Schematic, not to scale. Appendix and mesoappendix spread for teaching. The inset shows the alternative retrocecal position.</p>
+        </figure>
+        <section aria-labelledby="structure-heading" className="rounded-lg border border-border-warm p-4">
+          <h2 id="structure-heading" className="text-[11px] text-muted uppercase tracking-wider mb-2">Structures to identify</h2>
+          <p className="mb-3 text-[12px] text-secondary">Select a structure to highlight it. Select it again to show all anatomy.</p>
+          <div className="flex flex-wrap gap-2">
+            {structures.map((s) => (
+              <button key={s.name} type="button" aria-pressed={selected === s.name} aria-controls="structure-note" onClick={() => setSelected(selected === s.name ? null : s.name)} className={`rounded-full px-3 py-1 text-xs transition-colors border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ochre ${selected === s.name ? "bg-ochre border-ochre text-parchment" : "border-border-warm text-secondary bg-transparent hover:bg-surface"}`}>{s.name}</button>
+            ))}
           </div>
+          <div id="structure-note" aria-live="polite" aria-atomic="true" className="mt-4 rounded-md border-l-[3px] border-ochre bg-surface p-3">
+            <div className="text-[10px] text-muted uppercase tracking-wider mb-1">{selectedItem ? "Selected structure" : "Orientation"}</div>
+            <h3 className="font-serif italic font-normal text-[16px] text-ink mb-1">{selectedItem?.name ?? "Find the base first"}</h3>
+            <p className="text-[13px] text-secondary leading-relaxed">{selectedItem?.note ?? "Follow the taenia coli toward their convergence at the appendiceal base, then trace the appendix and its mesoappendix."}</p>
+          </div>
+        </section>
+        <p className="text-[11px] text-muted leading-relaxed">Anatomy reference: <a className="underline underline-offset-2 hover:text-secondary" href="https://www.ncbi.nlm.nih.gov/books/NBK459205/">StatPearls: Anatomy, Abdomen and Pelvis, Appendix</a>. Illustrated view only; no intraoperative photographs are included.</p>
+      </div>
+      <aside className="rounded-lg border border-border-warm p-4 self-start" aria-labelledby="checklist-heading">
+        <div className="flex items-center justify-between gap-3 mb-1">
+          <h2 id="checklist-heading" className="text-[11px] text-muted uppercase tracking-wider">Pre-scrub checklist</h2>
+          <span className="text-[11px] text-ochre font-medium" aria-live="polite">{checked.size} / {structures.length}</span>
         </div>
-      </section>
-    </>
+        <p className="text-[11.5px] text-muted mb-4">Can you identify each structure and explain its relevance?</p>
+        <div className="flex flex-col">
+          {structures.map((s) => {
+            const done = checked.has(s.name);
+            return (
+              <button key={s.name} type="button" role="checkbox" aria-checked={done} onClick={() => toggleChecked(s.name)} className="flex items-center gap-2.5 py-2.5 text-left border-b border-border-warm last:border-0 focus-visible:outline-2 focus-visible:outline-ochre focus-visible:outline-offset-2">
+                <span aria-hidden="true" className={`w-4 h-4 rounded-[3px] shrink-0 flex items-center justify-center border transition-colors ${done ? "bg-ochre border-ochre" : "border-border-warm"}`}>
+                  {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="#F5EFE4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                </span>
+                <span className={`text-[11.5px] leading-snug ${done ? "line-through text-muted" : "text-ink"}`}>{s.name}</span>
+              </button>
+            );
+          })}
+        </div>
+        {checked.size === structures.length && <p role="status" className="mt-4 text-[12px] text-ochre">Identification review complete.</p>}
+        {checked.size > 0 && <button type="button" onClick={() => setChecked(new Set())} className="mt-3 text-[11px] text-secondary underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-ochre">Reset checklist</button>}
+        <div className="mt-4 rounded-md p-3 border border-cvs-border bg-cvs-light">
+          <h3 className="text-[11px] text-cvs font-medium mb-1">Before division</h3>
+          <p className="text-[11px] text-cvs leading-snug">Confirm the appendiceal base, assess tissue viability, and identify adjacent bowel and the mesoappendiceal vessels with your supervising surgeon.</p>
+        </div>
+      </aside>
+    </div>
   );
 }
