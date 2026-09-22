@@ -8,7 +8,7 @@ const tabs = [
   { label: "Anatomy",        href: "/procedures/lap-appy/anatomy" },
   { label: "Steps",          href: "/procedures/lap-appy/steps" },
   { label: "Complications",  href: "/procedures/lap-appy/complications" },
-  { label: "Pimp",           href: "/procedures/lap-appy/pimp" },
+  { label: "OR Questions",           href: "/procedures/lap-appy/pimp" },
   { label: "Quiz",           href: "/procedures/lap-appy/quiz" },
 ];
 

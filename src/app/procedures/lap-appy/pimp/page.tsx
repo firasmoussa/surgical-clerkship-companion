@@ -44,7 +44,7 @@ export default function LapAppyPimpPage() {
   return (
     <>
       <section className="pt-8">
-        <h2 className="font-sans tracking-tight text-[20px] text-ink font-semibold">Pimp Questions</h2>
+        <h2 className="font-sans tracking-tight text-[20px] text-ink font-semibold">Common OR Questions</h2>
         <p className="mt-2 max-w-2xl text-[14px] text-secondary leading-relaxed">
           Click a question to reveal the answer. Filter by level to focus.
         </p>
@@ -132,7 +132,7 @@ export default function LapAppyPimpPage() {
             href="/submit"
             className="mt-3 inline-block bg-ochre text-parchment rounded-lg px-4 py-2 text-[14px] font-medium hover:opacity-90 transition-opacity"
           >
-            Submit a pimp question
+            Submit an OR question
           </a>
         </div>
       </section>

@@ -93,7 +93,7 @@ export default function SubmitPage() {
 
   return (
     <div className="max-w-3xl py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Submit a Pimp Question</h1>
+      <h1 className="text-3xl font-semibold tracking-tight">Submit an OR Question</h1>
       <p className="mt-3 max-w-2xl text-secondary">
         Help build a student-first resource. Please keep submissions de-identified and focused on learning.
       </p>

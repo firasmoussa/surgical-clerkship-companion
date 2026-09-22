@@ -68,7 +68,7 @@ export default function HomePage() {
             </article>
           ))}
         </div>
-        <p className="mt-4 text-[12px] text-secondary leading-relaxed">Each guide includes an overview, anatomy, operative steps, complications, pimp questions, and a quiz.</p>
+        <p className="mt-4 text-[12px] text-secondary leading-relaxed">Each guide includes an overview, anatomy, operative steps, complications, OR questions, and a quiz.</p>
       </section>
 
       <section aria-labelledby="review-heading" className="mt-10 border-t border-border-warm pt-8">

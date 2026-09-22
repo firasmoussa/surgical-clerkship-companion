@@ -278,11 +278,11 @@ export default function LapCholeQuizPage() {
           {incorrectIds.length > 0 ? (
             <p className="mt-4 text-[14px] text-secondary">
               <span className="font-medium text-ink">Review suggestion: </span>
-              Consider revisiting these in the Pimp tab: {incorrectIds.join(", ")}
+              Consider revisiting these in the OR Questions tab: {incorrectIds.join(", ")}
             </p>
           ) : (
             <p className="mt-4 text-[14px] text-secondary">
-              Clean sweep. You are ready to be pimped on rounds.
+              All answers correct. Review the explanations to reinforce your understanding.
             </p>
           )}
 
