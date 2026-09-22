@@ -280,10 +280,10 @@ export default function LapCholeAnatomySVG({ selected }: { selected: string | nu
       <text x="392" y="60" style={labelStyle("liver-edge")}>Inferior liver edge</text>
 
       <line x1="282" y1="182" x2="445" y2="205" style={lineStyle("calots-triangle")} />
-      <text x="447" y="209" style={labelStyle("calots-triangle")}>Calot's triangle</text>
+      <text x="447" y="209" style={labelStyle("calots-triangle")}>Calot&apos;s triangle</text>
 
       <line x1="210" y1="158" x2="68" y2="200" style={lineStyle("rouvieres-sulcus")} />
-      <text x="8" y="198" style={labelStyle("rouvieres-sulcus")}>Rouvière's</text>
+      <text x="8" y="198" style={labelStyle("rouvieres-sulcus")}>Rouvière&apos;s</text>
       <text x="8" y="210" style={labelStyle("rouvieres-sulcus")}>sulcus</text>
 
       {/* Context labels */}

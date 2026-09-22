@@ -225,7 +225,6 @@ export default function CalibratorPage() {
         />
 
         {activeHotspots.map((hs, i) => {
-          const opt = STRUCTURE_OPTIONS.find((o) => o.structure === hs.structure);
           return (
             <div
               key={i}

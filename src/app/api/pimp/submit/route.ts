@@ -20,14 +20,18 @@ type Payload = {
 };
 
 export async function POST(req: NextRequest) {
+  if (process.env.SUBMISSIONS_ENABLED !== "true") {
+    return NextResponse.json({ error: "Question submissions are not open yet." }, { status: 503 });
+  }
+
   try {
     const url = process.env.SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!url || !key) {
       return NextResponse.json(
-        { error: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in .env.local" },
-        { status: 500 }
+        { error: "Submissions are temporarily unavailable. Please try again later." },
+        { status: 503 }
       );
     }
 
@@ -88,7 +92,7 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       return NextResponse.json(
-        { error: "Database insert failed.", details: error.message },
+        { error: "Unable to save your question. Please try again later." },
         { status: 500 }
       );
     }

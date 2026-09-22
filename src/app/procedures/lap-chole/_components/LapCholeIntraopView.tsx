@@ -8,7 +8,7 @@
 
 import SourceCitations from "@/app/components/SourceCitations";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type HotSpot = {
   structure: string;
@@ -96,17 +96,18 @@ const STRUCTURE_TO_SLIDE: Record<string, string> = {
 };
 
 export default function LapCholeIntraopView({ selected }: { selected: string | null }) {
-  const [activeSlideId, setActiveSlideId] = useState<string>(SLIDES[0].id);
+  const [selection, setSelection] = useState({ structure: null as string | null, slideId: SLIDES[0].id });
+  let activeSlideId = selection.slideId;
 
-  useEffect(() => {
-    if (!selected) return;
+  // Adjust for a changed structure while retaining manual slide selection.
+  if (selection.structure !== selected) {
     const currentSlide = SLIDES.find((s) => s.id === activeSlideId);
     const alreadyVisible = currentSlide?.hotspots.some((h) => h.structure === selected);
-    if (!alreadyVisible) {
-      const target = STRUCTURE_TO_SLIDE[selected];
-      if (target) setActiveSlideId(target);
+    if (selected && !alreadyVisible) {
+      activeSlideId = STRUCTURE_TO_SLIDE[selected] ?? activeSlideId;
     }
-  }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
+    setSelection({ structure: selected, slideId: activeSlideId });
+  }
 
   const slide = SLIDES.find((s) => s.id === activeSlideId) ?? SLIDES[0];
 
@@ -118,7 +119,7 @@ export default function LapCholeIntraopView({ selected }: { selected: string | n
           <button
             key={s.id}
             type="button"
-            onClick={() => setActiveSlideId(s.id)}
+            onClick={() => setSelection({ structure: selected, slideId: s.id })}
             className={[
               "rounded-lg border px-3 py-1 text-xs font-medium transition-colors",
               activeSlideId === s.id
