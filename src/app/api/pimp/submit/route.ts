@@ -1,104 +1,70 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+import { createHmac } from "node:crypto";
+import { isIP } from "node:net";
+import { validateSubmission } from "@/app/lib/submissions";
 
-function getClientIp(req: NextRequest) {
-  const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
-  return "unknown";
-}
-
-type Payload = {
-  procedure: string;
-  question: string;
-  answer?: string;
-  context?: string;
-  tags?: string;
-  anonymous: boolean;
-
-  honeypot?: string;
-  startedAt?: number;
-};
+export const runtime = "nodejs";
+const MAX_BYTES = 16384;
+const unavailable = () => NextResponse.json({ error: "Submissions are temporarily unavailable. Please try again later." }, { status: 503 });
 
 export async function POST(req: NextRequest) {
-  if (process.env.SUBMISSIONS_ENABLED !== "true") {
-    return NextResponse.json({ error: "Question submissions are not open yet." }, { status: 503 });
-  }
+  if (process.env.SUBMISSIONS_ENABLED !== "true") return NextResponse.json({ error: "Question submissions are not open yet." }, { status: 503 });
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const salt = process.env.SUBMISSION_RATE_LIMIT_SECRET;
+  if (!url || !key || !redisUrl || !redisToken || !salt) return unavailable();
+  if (req.headers.get("origin") !== req.nextUrl.origin) return NextResponse.json({ error: "Please submit using the contribution form." }, { status: 403 });
+  if (req.headers.get("content-type")?.split(";")[0].trim() !== "application/json") return NextResponse.json({ error: "JSON is required." }, { status: 415 });
 
+  // Trust the client address only behind Vercel's managed proxy.
+  const ip = process.env.VERCEL === "1" ? req.headers.get("x-forwarded-for")?.split(",")[0].trim() : null;
+  if (!ip || !isIP(ip)) return unavailable();
   try {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const limiter = new Ratelimit({ redis: new Redis({ url: redisUrl, token: redisToken }), limiter: Ratelimit.slidingWindow(5, "10 m"), prefix: "scrubready:submissions", analytics: false, timeout: 3000 });
+    const identifier = createHmac("sha256", salt).update(ip).digest("hex");
+    const result = await limiter.limit(identifier);
+    // Upstash normally permits requests on timeout; this endpoint fails closed.
+    if (result.reason === "timeout") return unavailable();
+    if (!result.success) return NextResponse.json({ error: "Too many attempts. Please try again in a few minutes." }, { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil((result.reset - Date.now()) / 1000))) } });
+  } catch { return unavailable(); }
 
-    if (!url || !key) {
-      return NextResponse.json(
-        { error: "Submissions are temporarily unavailable. Please try again later." },
-        { status: 503 }
-      );
-    }
-
-    const ip = getClientIp(req);
-    const ua = req.headers.get("user-agent") ?? "";
-
-    const body = (await req.json()) as Payload;
-
-    // Honeypot: bots fill hidden fields
-    if (body.honeypot && body.honeypot.trim().length > 0) {
-      return NextResponse.json({ ok: true }); // pretend success
-    }
-
-    // Too-fast check (basic bot filter)
-    if (typeof body.startedAt === "number") {
-      const elapsed = Date.now() - body.startedAt;
-      if (elapsed < 2500) {
-        return NextResponse.json({ error: "Submission too fast. Please try again." }, { status: 400 });
+  let body: unknown;
+  try {
+    if (Number(req.headers.get("content-length")) > MAX_BYTES) return NextResponse.json({ error: "Submission too large." }, { status: 413 });
+    const reader = req.body?.getReader();
+    if (!reader) throw new Error();
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_BYTES) {
+        await reader.cancel();
+        return NextResponse.json({ error: "Submission too large." }, { status: 413 });
       }
+      chunks.push(value);
     }
+    body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
 
-    const procedure = (body.procedure ?? "").trim();
-    const question = (body.question ?? "").trim();
-    const answer = (body.answer ?? "").trim();
-    const context = (body.context ?? "").trim();
-    const tags = (body.tags ?? "").trim();
-    const anonymous = !!body.anonymous;
-
-    if (!procedure || !question) {
-      return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
-    }
-
-    // Basic length limits
-    if (question.length > 800) return NextResponse.json({ error: "Question too long." }, { status: 400 });
-    if (answer.length > 1200) return NextResponse.json({ error: "Answer too long." }, { status: 400 });
-    if (context.length > 800) return NextResponse.json({ error: "Context too long." }, { status: 400 });
-    if (tags.length > 200) return NextResponse.json({ error: "Tags too long." }, { status: 400 });
-
-    // Optional: block links (common spam)
-    const combined = `${question} ${answer} ${context} ${tags}`.toLowerCase();
-    if (combined.includes("http://") || combined.includes("https://")) {
-      return NextResponse.json({ error: "Links are not allowed." }, { status: 400 });
-    }
-
-    const supabase = createClient(url, key, { auth: { persistSession: false } });
-
+  let submission;
+  try { submission = validateSubmission(body); }
+  catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Invalid submission." }, { status: 400 }); }
+  if (submission.spam) return NextResponse.json({ ok: true });
+  try {
+    const supabase = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
     const { error } = await supabase.from("pimp_submissions").insert({
-      procedure,
-      question,
-      answer: answer || null,
-      context: context || null,
-      tags: tags || null,
-      anonymous,
-      status: "pending",
-      ip,
-      user_agent: ua,
+      procedure: submission.procedure, question: submission.question,
+      answer: submission.answer || null, context: submission.context || null, tags: submission.tags || null,
+      anonymous: true, status: "pending",
     });
-
-    if (error) {
-      return NextResponse.json(
-        { error: "Unable to save your question. Please try again later." },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
-  }
+    if (error) return unavailable();
+    return NextResponse.json({ ok: true }, { status: 201 });
+  } catch { return unavailable(); }
 }

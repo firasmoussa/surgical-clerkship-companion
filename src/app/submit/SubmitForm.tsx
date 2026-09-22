@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { PROCEDURES, LIMITS } from "@/app/lib/submissions";
 
 type FormState = {
   procedure: string;
@@ -14,14 +15,7 @@ type FormState = {
 type SubmitFormProps = { enabled: boolean };
 
 export default function SubmitForm({ enabled }: SubmitFormProps) {
-  const procedures = useMemo(
-    () => [
-      "Laparoscopic Cholecystectomy",
-      "Laparoscopic Appendectomy",
-      "Inguinal Hernia Repair (coming soon)",
-    ],
-    []
-  );
+  const procedures = PROCEDURES;
 
   const [form, setForm] = useState<FormState>({
     procedure: "Laparoscopic Cholecystectomy",
@@ -97,7 +91,7 @@ export default function SubmitForm({ enabled }: SubmitFormProps) {
     <div className="max-w-3xl py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Submit an OR Question</h1>
       <p className="mt-3 max-w-2xl text-secondary">
-        Help build a student-first resource. Please keep submissions de-identified and focused on learning.
+        Help build a student-first resource. Share general learning points only. Do not include patient information, names, dates, or details that could identify anyone.
       </p>
 
       <div className="mt-6 rounded-2xl border border-border-warm bg-card p-6 sm:p-8">
@@ -122,9 +116,10 @@ export default function SubmitForm({ enabled }: SubmitFormProps) {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-ink">Procedure</label>
+              <label htmlFor="procedure" className="text-sm font-medium text-ink">Procedure</label>
               <select
                 className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
+                id="procedure"
                 value={form.procedure}
                 onChange={(e) => update("procedure", e.target.value)}
               >
@@ -137,11 +132,13 @@ export default function SubmitForm({ enabled }: SubmitFormProps) {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-ink">Question</label>
+              <label htmlFor="question" className="text-sm font-medium text-ink">Question</label>
               <textarea
                 className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={3}
                 placeholder="What were you asked?"
+                id="question"
+                maxLength={LIMITS.question}
                 value={form.question}
                 onChange={(e) => update("question", e.target.value)}
                 required
@@ -149,54 +146,49 @@ export default function SubmitForm({ enabled }: SubmitFormProps) {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-ink">
+              <label htmlFor="answer" className="text-sm font-medium text-ink">
                 Student-level Answer (optional)
               </label>
               <textarea
                 className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={3}
                 placeholder="What’s the best concise student answer?"
+                id="answer"
+                maxLength={LIMITS.answer}
                 value={form.answer}
                 onChange={(e) => update("answer", e.target.value)}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-ink">Context (optional)</label>
+              <label htmlFor="context" className="text-sm font-medium text-ink">Context (optional)</label>
               <textarea
                 className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 rows={2}
                 placeholder="When was it asked? What part of the case?"
+                id="context"
+                maxLength={LIMITS.context}
                 value={form.context}
                 onChange={(e) => update("context", e.target.value)}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-ink">Tags (optional)</label>
+              <label htmlFor="tags" className="text-sm font-medium text-ink">Tags (optional)</label>
               <input
                 className="mt-2 w-full rounded-lg border border-border-warm bg-parchment px-3 py-2.5 text-sm"
                 placeholder="anatomy, complications, CVS (comma-separated)"
+                id="tags"
+                maxLength={LIMITS.tags}
                 value={form.tags}
                 onChange={(e) => update("tags", e.target.value)}
               />
             </div>
 
-            <div className="flex items-center gap-2">
-              <input
-                id="anon"
-                type="checkbox"
-                className="h-4 w-4"
-                checked={form.anonymous}
-                onChange={(e) => update("anonymous", e.target.checked)}
-              />
-              <label htmlFor="anon" className="text-sm text-secondary">
-                Keep my submission anonymous
-              </label>
-            </div>
+            <p className="text-xs leading-relaxed text-secondary">We do not ask for your name or email. Your question and optional answer, context, and tags are stored for editorial review. Questions are not published automatically. Your IP address is processed for spam prevention; a keyed hash is stored temporarily by our rate-limiting provider. We do not save your IP address or browser details with the question.</p>
 
             {errorMsg && (
-              <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+              <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
                 {errorMsg}
               </div>
             )}
@@ -216,7 +208,7 @@ export default function SubmitForm({ enabled }: SubmitFormProps) {
           </form>
         ) : (
           <div>
-            <div className="text-lg font-semibold text-ink">Thanks — submitted.</div>
+            <div className="text-lg font-semibold text-ink">Thanks, submitted for review.</div>
             <p className="mt-2 text-sm text-secondary">
               Your question has been received and will be reviewed before inclusion.
             </p>
