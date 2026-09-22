@@ -1,5 +1,8 @@
 "use client";
 
+import SourceCitations from "@/app/components/SourceCitations";
+
+
 import { useState } from "react";
 import LapAppyAnatomySVG from "../_components/LapAppyAnatomySVG";
 import { structures, type AppyStructure } from "../_components/anatomy";
@@ -55,9 +58,11 @@ export default function LapAppyAnatomyPage() {
             <div className="text-[10px] text-muted uppercase tracking-wider mb-1">{selectedItem ? "Selected structure" : "Orientation"}</div>
             <h3 className="font-sans tracking-tight font-semibold text-[16px] text-ink mb-1">{selectedItem?.name ?? "Find the base first"}</h3>
             <p className="text-[14px] text-secondary leading-relaxed">{selectedItem?.note ?? "Follow the taenia coli toward their convergence at the appendiceal base, then trace the appendix and its mesoappendix."}</p>
+          <SourceCitations sources={selectedItem ? selectedItem.sources : ["appyTechnique"]} />
           </div>
         </section>
-        <p className="text-[11px] text-muted leading-relaxed">Anatomy reference: <a className="underline underline-offset-2 hover:text-secondary" href="https://www.ncbi.nlm.nih.gov/books/NBK459205/">StatPearls: Anatomy, Abdomen and Pelvis, Appendix</a>. Illustrated view only; no intraoperative photographs are included.</p>
+        <SourceCitations sources={["appyAnatomy", "appyTechnique", "variation"]} />
+        <p className="text-[11px] text-muted leading-relaxed">Illustrated view only; no intraoperative photographs are included.</p>
       </div>
       <aside className="rounded-2xl border border-border-warm bg-card p-4 self-start" aria-labelledby="checklist-heading">
         <div className="flex items-center justify-between gap-3 mb-1">
@@ -83,6 +88,7 @@ export default function LapAppyAnatomyPage() {
         <div className="mt-4 rounded-md p-3 border border-cvs-border bg-cvs-light">
           <h3 className="text-[11px] text-cvs font-medium mb-1">Before division</h3>
           <p className="text-[11px] text-cvs leading-snug">Confirm the appendiceal base, assess tissue viability, and identify adjacent bowel and the mesoappendiceal vessels with your supervising surgeon.</p>
+          <SourceCitations sources={["appyTechnique", "base"]} />
         </div>
       </aside>
     </div>

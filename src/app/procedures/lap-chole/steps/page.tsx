@@ -1,20 +1,29 @@
+import SourceCitations from "@/app/components/SourceCitations";
+import type { ClinicalSourceId } from "@/app/lib/clinicalSources";
+
 import TooltipTerm from "@/app/components/TooltipTerm";
 
-const steps = [
+type Step = { title: string; body: string; sources: ClinicalSourceId[]; criteria?: React.ReactNode[] };
+
+const steps: Step[] = [
   {
     title: "Establish pneumoperitoneum and place ports.",
+    sources: ["choleTechnique"],
     body: "CO2 insufflation creates working space. Four ports are standard: umbilical (camera), epigastric, and two RUQ working ports positioned for triangulation toward the gallbladder.",
   },
   {
     title: "Expose the gallbladder.",
+    sources: ["biliary"],
     body: "The fundus is retracted superiorly while the infundibulum is pulled laterally. Proper retraction opens Calot's triangle and reduces the risk of bile duct misidentification.",
   },
   {
     title: "Dissect the hepatocystic triangle.",
+    sources: ["biliary", "cvs"],
     body: "Fat and fibrous tissue are cleared to skeletonize the cystic duct and cystic artery. Dissect on both the anterior and posterior aspects of the triangle.",
   },
   {
     title: "Confirm all three Critical View of Safety criteria.",
+    sources: ["cvs", "safeChole"],
     body: "Pause before placing any clip or dividing the cystic duct or artery. Confirm all three criteria together:",
     criteria: [
       <>
@@ -28,18 +37,22 @@ const steps = [
   },
   {
     title: "Clip and divide the cystic duct.",
+    sources: ["choleTechnique", "safeChole"],
     body: "Division should only occur once the Critical View is confirmed. Clips are placed proximally and distally, then the duct is divided between them.",
   },
   {
     title: "Clip and divide the cystic artery.",
+    sources: ["choleTechnique"],
     body: "Confirm anatomy and maintain visualization while controlling bleeding risk. The artery is clipped and divided with the same technique.",
   },
   {
     title: "Separate the gallbladder from the liver bed.",
+    sources: ["choleTechnique"],
     body: "Dissection proceeds along the hepatic bed using electrocautery or an energy device, with attention to bleeding and bile leakage from accessory ducts.",
   },
   {
     title: "Inspect the field and remove the gallbladder.",
+    sources: ["choleTechnique"],
     body: "Confirm hemostasis, inspect clips, and remove the specimen via the umbilical or epigastric port site, using a retrieval bag if needed.",
   },
 ];
@@ -64,6 +77,7 @@ export default function LapCholeStepsPage() {
             <div className="pt-0.5">
               <div className="text-[14px] font-medium text-ink">{step.title}</div>
               <div className="text-[14px] text-secondary leading-relaxed mt-1">{step.body}</div>
+                <SourceCitations sources={step.sources} />
               {step.criteria && (
                 <div className="mt-3 rounded-md border border-cvs-border bg-cvs-light p-4 text-[14px] text-cvs leading-relaxed">
                   <div className="font-medium">CVS checkpoint: all three required</div>

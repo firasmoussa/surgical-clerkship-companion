@@ -1,5 +1,7 @@
 "use client";
 
+import SourceCitations from "@/app/components/SourceCitations";
+
 import Link from "next/link";
 import { useState } from "react";
 import LapCholeAnatomySVG from "../../procedures/lap-chole/_components/LapCholeAnatomySVG";
@@ -39,6 +41,7 @@ export default function LapCholeAtlasPreviewPage() {
           </div>
           {enlarged && <p className="mt-2 text-[11px] text-secondary sm:hidden">Scroll horizontally to explore the enlarged illustration.</p>}
           <p className="mt-3 text-[11px] text-secondary leading-relaxed">Illustrated schematic. This preview is separate from the current anatomy page and its intraoperative views.</p>
+          <SourceCitations sources={["choleTechnique", "cvs", "rouviere"]} />
         </figure>
         <aside className="rounded-2xl border border-border-warm bg-card p-4 self-start">
           <h2 className="text-[11px] text-muted uppercase tracking-wider">Structures to identify</h2>

@@ -1,3 +1,5 @@
+import SourceCitations from "@/app/components/SourceCitations";
+
 export default function LapCholeOverviewPage() {
   return (
     <section className="pt-8">
@@ -10,6 +12,7 @@ export default function LapCholeOverviewPage() {
             Symptomatic cholelithiasis, acute cholecystitis, biliary colic, and cholecystectomy
             during the same admission after mild gallstone pancreatitis improves.
           </div>
+          <SourceCitations sources={["gallstones", "pancreatitis"]} />
         </div>
 
         <div>
@@ -17,6 +20,7 @@ export default function LapCholeOverviewPage() {
           <div className="mt-1 text-[14px] text-secondary leading-relaxed">
             Supine. Reverse Trendelenburg with slight left tilt to expose the gallbladder.
           </div>
+          <SourceCitations sources={["choleTechnique"]} />
         </div>
 
         <div>
@@ -25,6 +29,7 @@ export default function LapCholeOverviewPage() {
             Hepatocystic triangle (cystic duct, common hepatic duct, inferior liver edge), cystic
             artery, common bile duct.
           </div>
+          <SourceCitations sources={["cvs", "choleTechnique"]} />
         </div>
 
         <div>
@@ -40,6 +45,7 @@ export default function LapCholeOverviewPage() {
               Failure to achieve CVS risks misidentifying the common bile duct as the cystic duct -- the most common cause of bile duct injury.
             </p>
           </div>
+          <SourceCitations sources={["cvs", "safeChole"]} />
         </div>
 
         <div>
@@ -48,6 +54,7 @@ export default function LapCholeOverviewPage() {
             Bile duct injury, bleeding (cystic artery or liver bed), bile leak, retained stones,
             surgical site infection.
           </div>
+          <SourceCitations sources={["choleTechnique", "bileLeak"]} />
         </div>
       </div>
     </section>

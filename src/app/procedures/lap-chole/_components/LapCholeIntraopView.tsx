@@ -6,6 +6,8 @@
 
 "use client";
 
+import SourceCitations from "@/app/components/SourceCitations";
+
 import { useState, useEffect } from "react";
 
 type HotSpot = {
@@ -180,6 +182,7 @@ export default function LapCholeIntraopView({ selected }: { selected: string | n
       {/* Caption */}
       <div className="rounded-xl border border-border-warm bg-surface p-3 text-xs text-secondary leading-relaxed">
         <p>{slide.caption}</p>
+        <SourceCitations sources={["gupta"]} />
         <p className="mt-2 text-[10px] text-muted italic">{slide.credit}</p>
       </div>
     </div>

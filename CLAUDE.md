@@ -212,6 +212,17 @@ Rouviere's sulcus
 
 ---
 
+## Clinical References
+
+- Cite clinical teaching text with `SourceCitations` from `src/app/components/SourceCitations.tsx`.
+- Maintain source metadata in `src/app/lib/clinicalSources.ts`; use the typed `ClinicalSourceId` rather than free-form URLs in question data.
+- Every question, step, complication and anatomy note needs sources that support its actual claims. Overview subsections need their own citations.
+- Reveal quiz references with the explanation after submission; do not reveal the answer through a source title before submission.
+- Verify the source and relevant section. Distinguish guidelines, trial endpoints, reviews and case reports. Avoid unsupported universal rules or percentages.
+- Record material medical corrections and unresolved questions in `docs/clinical-source-review.md` separately from presentation changes.
+
+---
+
 ## Backend
 
 **Supabase**

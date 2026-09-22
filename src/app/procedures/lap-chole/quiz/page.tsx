@@ -1,9 +1,13 @@
 "use client";
 
+import SourceCitations from "@/app/components/SourceCitations";
+import type { ClinicalSourceId } from "@/app/lib/clinicalSources";
+
+
 import { useMemo, useState } from "react";
 
 type Option = { id: "A" | "B" | "C" | "D"; text: string };
-type Question = {
+type Question = { sources: ClinicalSourceId[];
   id: string;
   prompt: string;
   options: Option[];
@@ -13,7 +17,7 @@ type Question = {
 
 const QUESTIONS: Question[] = [
   {
-    id: "q1",
+    id: "q1", sources: ["cvs"],
     prompt: "Which of the following is required to achieve the Critical View of Safety?",
     options: [
       { id: "A", text: "Visualization of the common bile duct" },
@@ -25,7 +29,7 @@ const QUESTIONS: Question[] = [
     explanation: "One CVS criterion is freeing the lower third of the gallbladder from the liver bed. CVS also requires clearing the hepatocystic triangle and confirming only two structures enter the gallbladder before division.",
   },
   {
-    id: "q2",
+    id: "q2", sources: ["cvs"],
     prompt: "What are the boundaries of the hepatocystic triangle?",
     options: [
       { id: "A", text: "Cystic duct, common bile duct, and liver edge" },
@@ -37,7 +41,7 @@ const QUESTIONS: Question[] = [
     explanation: "the hepatocystic triangle is bounded by the cystic duct, common hepatic duct, and inferior edge of the liver. It is the key space dissected to identify the cystic duct and artery safely.",
   },
   {
-    id: "q3",
+    id: "q3", sources: ["choleTechnique"],
     prompt: "The cystic artery most commonly arises from which vessel?",
     options: [
       { id: "A", text: "Proper hepatic artery" },
@@ -49,7 +53,7 @@ const QUESTIONS: Question[] = [
     explanation: "The cystic artery typically branches from the right hepatic artery. Bleeding from this area can quickly obscure visualization during the hepatocystic triangle dissection.",
   },
   {
-    id: "q4",
+    id: "q4", sources: ["bileLeak"],
     prompt: "What is the most feared complication of laparoscopic cholecystectomy?",
     options: [
       { id: "A", text: "Postoperative ileus" },
@@ -61,7 +65,7 @@ const QUESTIONS: Question[] = [
     explanation: "Bile duct injury can lead to bile leak, strictures, recurrent infections, and long-term morbidity, often requiring complex reconstruction.",
   },
   {
-    id: "q5",
+    id: "q5", sources: ["biliary"],
     prompt: "What is the purpose of retracting the fundus superiorly and the infundibulum laterally?",
     options: [
       { id: "A", text: "To identify the hepatic artery" },
@@ -73,7 +77,7 @@ const QUESTIONS: Question[] = [
     explanation: "Proper retraction opens the hepatocystic triangle and exposes the cystic duct and artery. Poor retraction distorts anatomy and increases misidentification risk.",
   },
   {
-    id: "q6",
+    id: "q6", sources: ["gallstones"],
     prompt: "What imaging modality is first-line for suspected gallbladder disease?",
     options: [
       { id: "A", text: "CT scan" },
@@ -85,7 +89,7 @@ const QUESTIONS: Question[] = [
     explanation: "Ultrasound is sensitive for gallstones and can show features of cholecystitis. It is noninvasive, quick, and widely available.",
   },
   {
-    id: "q7",
+    id: "q7", sources: ["bileLeak"],
     prompt: "A postoperative bile leak most commonly presents with:",
     options: [
       { id: "A", text: "Immediate hypotension" },
@@ -97,7 +101,7 @@ const QUESTIONS: Question[] = [
     explanation: "Bile leaks often present within days with abdominal pain, fever, bilious drain output, or fluid collections. ERCP with stenting is a common management approach.",
   },
   {
-    id: "q8",
+    id: "q8", sources: ["safeChole"],
     prompt: "What is the most common cause of bile duct injury during lap chole?",
     options: [
       { id: "A", text: "Instrument malfunction" },
@@ -109,7 +113,7 @@ const QUESTIONS: Question[] = [
     explanation: "Most bile duct injuries occur when the common bile duct is mistaken for the cystic duct. CVS is designed to prevent this error.",
   },
   {
-    id: "q9",
+    id: "q9", sources: ["pancreatitis"],
     prompt: "When should cholecystectomy be performed after mild gallstone pancreatitis?",
     options: [
       { id: "A", text: "Immediately during pancreatitis" },
@@ -121,7 +125,7 @@ const QUESTIONS: Question[] = [
     explanation: "Same-admission cholecystectomy after clinical resolution reduces recurrence of pancreatitis and other biliary complications.",
   },
   {
-    id: "q10",
+    id: "q10", sources: ["safeChole"],
     prompt: "In severe inflammation where CVS cannot be achieved safely, the best next step is:",
     options: [
       { id: "A", text: "Continue aggressive dissection until anatomy is clear" },
@@ -235,6 +239,7 @@ export default function LapCholeQuizPage() {
                 {selected === q.correct ? "Correct" : `Incorrect -- correct answer: ${q.correct}`}
               </div>
               <p className="text-[14px] text-secondary leading-relaxed">{q.explanation}</p>
+                <SourceCitations sources={q.sources} />
             </div>
           )}
 

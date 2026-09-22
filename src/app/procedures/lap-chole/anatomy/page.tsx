@@ -1,24 +1,29 @@
 "use client";
 
+import SourceCitations from "@/app/components/SourceCitations";
+import type { ClinicalSourceId } from "@/app/lib/clinicalSources";
+
+
 import { useState } from "react";
 import LapCholeAtlasSVG from "../_components/LapCholeAtlasSVG";
 import LapCholeIntraopView, { STRUCTURE_COLORS } from "../_components/LapCholeIntraopView";
 
 type Structure = {
+  sources: ClinicalSourceId[];
   name: string;
   note: string;
 };
 
 const structures: Structure[] = [
-  { name: "Gallbladder fundus", note: "The rounded inferior tip, retracted superiorly during lap chole to expose the RUQ." },
-  { name: "Infundibulum", note: "The widened pouch at the neck; grasped for lateral traction to open Calot's triangle." },
-  { name: "Cystic duct", note: "One of the two structures confirmed in the Critical View of Safety (CVS)." },
-  { name: "Cystic artery", note: "Typically a branch of the right hepatic artery; clipped and divided after CVS." },
-  { name: "Common hepatic duct (CHD)", note: "Forms the medial border of Calot's triangle; avoid mistaking it for the cystic duct." },
-  { name: "Common bile duct (CBD)", note: "Most feared injury in lap chole; confirm CVS before clipping anything." },
-  { name: "Inferior liver edge", note: "Forms the superior border of Calot's triangle." },
-  { name: "Calot's triangle", note: "The hepatocystic triangle is bounded by the common hepatic duct, cystic duct, and inferior liver edge. Often called Calot's triangle clinically, it differs from the original description, whose superior boundary was the cystic artery." },
-  { name: "Rouvière's sulcus", note: "A 2-5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. Marks the approximate plane of the CBD. This is an orientation landmark, not a substitute for confirming all three CVS criteria." },
+  { name: "Gallbladder fundus", sources: ["choleTechnique"], note: "The rounded inferior tip, retracted superiorly during lap chole to expose the RUQ." },
+  { name: "Infundibulum", sources: ["choleTechnique", "hartmann"], note: "The widened pouch at the neck; grasped for lateral traction to open Calot's triangle." },
+  { name: "Cystic duct", sources: ["cvs"], note: "One of the two structures confirmed in the Critical View of Safety (CVS)." },
+  { name: "Cystic artery", sources: ["choleTechnique", "cvs"], note: "Typically a branch of the right hepatic artery; clipped and divided after CVS." },
+  { name: "Common hepatic duct (CHD)", sources: ["cvs"], note: "Forms the medial border of Calot's triangle; avoid mistaking it for the cystic duct." },
+  { name: "Common bile duct (CBD)", sources: ["safeChole"], note: "Most feared injury in lap chole; confirm CVS before clipping anything." },
+  { name: "Inferior liver edge", sources: ["cvs"], note: "Forms the superior border of Calot's triangle." },
+  { name: "Calot's triangle", sources: ["cvs", "gupta"], note: "The hepatocystic triangle is bounded by the common hepatic duct, cystic duct, and inferior liver edge. Often called Calot's triangle clinically, it differs from the original description, whose superior boundary was the cystic artery." },
+  { name: "Rouvière's sulcus", sources: ["rouviere", "safeChole"], note: "A 2-5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. Marks the approximate plane of the CBD. This is an orientation landmark, not a substitute for confirming all three CVS criteria." },
 ];
 
 export default function LapCholeAnatomyPage() {
@@ -84,6 +89,8 @@ export default function LapCholeAnatomyPage() {
           )}
         </div>
 
+        <SourceCitations sources={["choleTechnique", "cvs", "rouviere"]} />
+
         {/* Chips */}
         <div className="rounded-2xl border border-border-warm bg-card p-4">
           <div className="text-[11px] text-muted uppercase tracking-wider mb-3">
@@ -134,6 +141,7 @@ export default function LapCholeAnatomyPage() {
               <p className="text-[14px] text-secondary leading-relaxed">
                 {selectedItem.note}
               </p>
+              <SourceCitations sources={selectedItem.sources} />
             </div>
           )}
         </div>
@@ -189,6 +197,7 @@ export default function LapCholeAnatomyPage() {
           <p className="text-[11px] text-cvs leading-snug">
             Before clipping or division, confirm all three: a cleared hepatocystic triangle, the lower third of the gallbladder separated from the cystic plate, and only two structures entering the gallbladder.
           </p>
+          <SourceCitations sources={["cvs"]} />
         </div>
       </div>
 

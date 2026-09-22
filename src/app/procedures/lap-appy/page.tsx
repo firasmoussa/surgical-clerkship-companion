@@ -1,3 +1,5 @@
+import SourceCitations from "@/app/components/SourceCitations";
+
 export default function LapAppyOverviewPage() {
   return (
     <>
@@ -11,6 +13,7 @@ export default function LapAppyOverviewPage() {
               Acute appendicitis (uncomplicated and complicated), perforated appendicitis with
               peritonitis, and selected interval appendectomy after non-operative management. Selection depends on the clinical course, age, and concern for neoplasm.
             </div>
+            <SourceCitations sources={["appyGuideline", "wses2025"]} />
           </div>
 
           <div>
@@ -19,6 +22,7 @@ export default function LapAppyOverviewPage() {
               Supine. Trendelenburg with left lateral tilt to displace bowel away from the RLQ and
               improve visualization of the cecum and appendix.
             </div>
+            <SourceCitations sources={["appyTechnique"]} />
           </div>
 
           <div>
@@ -27,6 +31,7 @@ export default function LapAppyOverviewPage() {
               Cecum, taenia coli (converge at appendiceal base), mesoappendix, appendiceal artery,
               terminal ileum, ileocecal junction. A retrocecal appendix lies behind the cecum; reported frequency varies by population and study.
             </div>
+            <SourceCitations sources={["appyAnatomy", "variation"]} />
           </div>
 
           <div>
@@ -35,6 +40,7 @@ export default function LapAppyOverviewPage() {
               Follow the taenia coli to their convergence at the base of the cecum -- this leads
               reliably to the appendiceal base. In retrocecal cases, the cecum may need to be mobilized medially.
             </div>
+            <SourceCitations sources={["appyTechnique"]} />
           </div>
 
           <div>
@@ -43,6 +49,7 @@ export default function LapAppyOverviewPage() {
               Surgical site infection, intra-abdominal abscess, stump leak, injury to right ureter
               or iliac vessels, ileus.
             </div>
+            <SourceCitations sources={["appyTechnique", "ureter"]} />
           </div>
         </div>
       </section>
