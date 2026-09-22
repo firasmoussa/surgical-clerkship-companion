@@ -130,7 +130,7 @@ export default function LapCholeAtlasSVG({ selected }: Props) {
       ))}
       <line x1="24" y1="510" x2="736" y2="510" stroke="#C9BBAA" />
       <text x="24" y="529" className="fill-muted text-[10px]">Schematic, not to scale. Structures spread for identification.</text>
-      <text x="736" y="529" textAnchor="end" className="fill-muted font-serif italic text-[10px]">Surgical Clerkship Companion</text>
+      <text x="736" y="529" textAnchor="end" className="fill-muted font-serif italic text-[10px]">ScrubReady</text>
     </svg>
   );
 }

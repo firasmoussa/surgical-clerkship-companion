@@ -31,16 +31,16 @@ export default function HomePage() {
       <section aria-labelledby="welcome-heading" className="border-b border-border-warm pb-8 sm:pb-10">
         <div className="mb-5 flex items-center gap-3 text-[11px] uppercase tracking-wider text-muted">
           <span className="h-px w-8 bg-ochre" aria-hidden="true" />
-          <span>Your surgical clerkship field guide</span>
+          <span>Meet ScrubReady</span>
         </div>
         <h1 id="welcome-heading" className="max-w-3xl font-sans tracking-[-0.04em] text-[36px] sm:text-[52px] font-semibold leading-tight text-ink">
-          A clearer picture.<br />A more prepared you.
+          Ready for your<br /><span className="text-ochre">next case.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-[15px] text-secondary leading-relaxed">
-          Surgical Clerkship Companion brings anatomy, operative steps, and case questions into one place. Choose your next procedure and build a focused review before you scrub.
+          ScrubReady brings anatomy, operative steps, and case questions into one place. Choose your next procedure and build a focused review before you scrub.
         </p>
         <a href="#procedures" className="mt-6 inline-flex items-center gap-3 rounded-lg bg-ochre px-4 py-2.5 text-[14px] font-medium text-parchment transition-colors hover:bg-charcoal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ochre">
-          Find your next case <span aria-hidden="true">↓</span>
+          Explore the guides <span aria-hidden="true">↓</span>
         </a>
       </section>
 

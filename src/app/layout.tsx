@@ -13,8 +13,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Surgical Clerkship Companion (Beta)",
-  description: "Structured case preparation for medical students on general surgery.",
+  title: { default: "ScrubReady | Prepare for your next case", template: "%s | ScrubReady" },
+  metadataBase: new URL("https://www.scrubready.net"),
+  icons: { icon: "/icon.svg" },
+  openGraph: { siteName: "ScrubReady", title: "ScrubReady | Prepare for your next case", description: "Anatomy, operative steps, and OR questions for your surgical clerkship.", type: "website" },
+  description: "Anatomy, operative steps, and OR questions for your surgical clerkship.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -27,8 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <main id="main-content" tabIndex={-1} className="pb-16">{children}</main>
 
-          <footer className="border-t border-border-warm py-8 text-xs text-muted">
-            Educational use only. Not clinical guidance.
+          <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-border-warm py-8 text-xs text-muted">
+            <span className="font-medium text-secondary">ScrubReady <span className="ml-2 font-normal text-muted">scrubready.net</span></span>
+            <span>Educational use only. Not clinical guidance.</span>
           </footer>
         </div>
 

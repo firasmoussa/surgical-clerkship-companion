@@ -1,4 +1,4 @@
-# Surgical Clerkship Companion — Claude Code Instructions
+# ScrubReady — Claude Code Instructions
 
 ## Project Overview
 A web app for medical students on their surgery clerkship. Built by Firas Moussa (MS3, Class of 2027, Chicago Medical School at Rosalind Franklin University), pursuing general surgery / surgical oncology.
@@ -234,7 +234,7 @@ Rouviere's sulcus
 ---
 
 ## Roadmap (in priority order)
-1. ~~Pick a name for the app~~ (TBD)
+1. ~~Pick a name for the app~~ ScrubReady (scrubready.net)
 2. ~~Visual redesign~~ -- done: globals.css, layout.tsx, StickyTabs, anatomy page, overview, steps, complications, pimp, quiz
 3. **Lap appy cleanup** -- anatomy SVG refinements, quiz content, pimp questions
 4. **Third procedure** -- inguinal hernia repair or TBD based on cases Firas is scrubbing

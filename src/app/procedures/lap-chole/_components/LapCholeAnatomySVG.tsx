@@ -296,7 +296,7 @@ export default function LapCholeAnatomySVG({ selected }: { selected: string | nu
       <line x1="28" y1="384" x2="28" y2="392" stroke="#94a3b8" strokeWidth="1" />
       <line x1="78" y1="384" x2="78" y2="392" stroke="#94a3b8" strokeWidth="1" />
       <text x="30" y="397" style={{ fontSize: "9px", fill: "#94a3b8", fontFamily: "Georgia, serif" }}>Schematic — not to scale</text>
-      <text x="500" y="397" textAnchor="end" style={{ fontSize: "9px", fill: "#94a3b8", fontFamily: "Georgia, serif", fontStyle: "italic" }}>© Surgical Clerkship Companion</text>
+      <text x="500" y="397" textAnchor="end" style={{ fontSize: "9px", fill: "#94a3b8", fontFamily: "Georgia, serif", fontStyle: "italic" }}>© ScrubReady</text>
     </svg>
   );
 }

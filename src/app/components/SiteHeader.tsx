@@ -18,11 +18,11 @@ export default function SiteHeader() {
         Skip to content
       </a>
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-8 sm:py-5">
-        <Link href="/" aria-label="Surgical Clerkship Companion home" className="self-start rounded-sm">
-          <span className="block text-[18px] font-semibold tracking-tight leading-snug text-ink sm:text-[20px]">
-            Surgical Clerkship <span className="text-ochre">Companion</span>
+        <Link href="/" aria-label="ScrubReady home" className="self-start rounded-sm">
+          <span className="block text-[26px] font-semibold tracking-[-0.05em] leading-none text-ink sm:text-[28px]">
+            Scrub<span className="text-ochre">Ready</span>
           </span>
-          <span className="mt-1 block text-[11px] text-muted">Your guide to the surgery rotation</span>
+          <span className="mt-1 block text-[11px] text-muted">Your surgical clerkship field guide</span>
         </Link>
         <nav aria-label="Main navigation" className="flex w-full items-center gap-1 rounded-xl bg-parchment p-1 sm:w-auto sm:shrink-0">
           {navigation.map(({ label, href }) => {
