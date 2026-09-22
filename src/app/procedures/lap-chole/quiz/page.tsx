@@ -22,11 +22,11 @@ const QUESTIONS: Question[] = [
       { id: "D", text: "Identification of Rouviere's sulcus" },
     ],
     correct: "B",
-    explanation: "One CVS criterion is freeing the lower third of the gallbladder from the liver bed. CVS also requires clearing Calot's triangle and confirming only two structures enter the gallbladder before division.",
+    explanation: "One CVS criterion is freeing the lower third of the gallbladder from the liver bed. CVS also requires clearing the hepatocystic triangle and confirming only two structures enter the gallbladder before division.",
   },
   {
     id: "q2",
-    prompt: "What are the boundaries of Calot's triangle?",
+    prompt: "What are the boundaries of the hepatocystic triangle?",
     options: [
       { id: "A", text: "Cystic duct, common bile duct, and liver edge" },
       { id: "B", text: "Cystic duct, common hepatic duct, and inferior liver edge" },
@@ -34,7 +34,7 @@ const QUESTIONS: Question[] = [
       { id: "D", text: "Cystic artery, liver edge, and common bile duct" },
     ],
     correct: "B",
-    explanation: "Calot's triangle is bounded by the cystic duct, common hepatic duct, and inferior edge of the liver. It is the key space dissected to identify the cystic duct and artery safely.",
+    explanation: "the hepatocystic triangle is bounded by the cystic duct, common hepatic duct, and inferior edge of the liver. It is the key space dissected to identify the cystic duct and artery safely.",
   },
   {
     id: "q3",
@@ -46,7 +46,7 @@ const QUESTIONS: Question[] = [
       { id: "D", text: "Gastroduodenal artery" },
     ],
     correct: "C",
-    explanation: "The cystic artery typically branches from the right hepatic artery. Bleeding from this area can quickly obscure visualization during Calot's triangle dissection.",
+    explanation: "The cystic artery typically branches from the right hepatic artery. Bleeding from this area can quickly obscure visualization during the hepatocystic triangle dissection.",
   },
   {
     id: "q4",
@@ -65,12 +65,12 @@ const QUESTIONS: Question[] = [
     prompt: "What is the purpose of retracting the fundus superiorly and the infundibulum laterally?",
     options: [
       { id: "A", text: "To identify the hepatic artery" },
-      { id: "B", text: "To open Calot's triangle and improve visualization" },
+      { id: "B", text: "To open the hepatocystic triangle and improve visualization" },
       { id: "C", text: "To reduce operative time" },
       { id: "D", text: "To prevent bile leak" },
     ],
     correct: "B",
-    explanation: "Proper retraction opens Calot's triangle and exposes the cystic duct and artery. Poor retraction distorts anatomy and increases misidentification risk.",
+    explanation: "Proper retraction opens the hepatocystic triangle and exposes the cystic duct and artery. Poor retraction distorts anatomy and increases misidentification risk.",
   },
   {
     id: "q6",
@@ -130,7 +130,7 @@ const QUESTIONS: Question[] = [
       { id: "D", text: "Abort the procedure immediately" },
     ],
     correct: "C",
-    explanation: "Subtotal cholecystectomy is a bail-out strategy when anatomy is unsafe. It reduces the risk of major bile duct injury by avoiding dangerous dissection in Calot's triangle.",
+    explanation: "Subtotal cholecystectomy is a bail-out strategy when anatomy is unsafe. It reduces the risk of major bile duct injury by avoiding dangerous dissection in the hepatocystic triangle.",
   },
 ];
 

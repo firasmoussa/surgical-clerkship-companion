@@ -5,7 +5,7 @@ const steps = [
   },
   {
     title: "Survey the abdomen and locate the appendix.",
-    body: "Perform a systematic survey first. Identify the cecum, then follow the taenia coli to the appendiceal base. In retrocecal cases, the cecum must be mobilized by incising the lateral peritoneal attachments.",
+    body: "Perform a systematic survey first. Identify the cecum, then follow the taenia coli to the appendiceal base. In retrocecal cases, the cecum may need to be mobilized by incising the lateral peritoneal attachments.",
   },
   {
     title: "Retract the appendix and expose the mesoappendix.",
@@ -17,19 +17,19 @@ const steps = [
   },
   {
     title: "Secure and divide the appendiceal base.",
-    body: "Two or three endoloops or a linear stapler are used to secure the base. Confirm the stump is well-secured before dividing.",
+    body: "Endoloops or a stapler may be used to secure the base, depending on tissue quality and operative findings. Confirm the stump is well-secured before dividing.",
   },
   {
     title: "Remove the specimen in an Endobag.",
     body: "The appendix is placed in a retrieval bag before extraction to prevent wound contamination -- particularly important in perforated cases.",
   },
   {
-    title: "Irrigate and inspect.",
-    body: "Irrigate the RLQ and pelvis in perforated cases. Inspect the stump, confirm hemostasis, and evaluate for adjacent bowel injury.",
+    title: "Clear contamination and inspect.",
+    body: "Remove contaminated fluid. Suction alone or suction with lavage may be used according to operative findings and surgeon preference; lavage is not mandatory. Inspect the stump, confirm hemostasis, and evaluate for adjacent bowel injury.",
   },
   {
     title: "Close port sites.",
-    body: "Fascial closure is required for any port site 10 mm or larger to prevent port-site hernia.",
+    body: "EHS/AHS suggests fascial closure for trocar sites 10 mm or larger, particularly at the umbilicus; evidence for this recommendation is limited.",
   },
 ];
 

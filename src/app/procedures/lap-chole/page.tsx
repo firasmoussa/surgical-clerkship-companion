@@ -7,8 +7,8 @@ export default function LapCholeOverviewPage() {
         <div>
           <div className="text-[14px] font-medium text-ink">Indications</div>
           <div className="mt-1 text-[14px] text-secondary leading-relaxed">
-            Symptomatic cholelithiasis, acute cholecystitis, biliary colic, and interval
-            cholecystectomy after gallstone pancreatitis.
+            Symptomatic cholelithiasis, acute cholecystitis, biliary colic, and cholecystectomy
+            during the same admission after mild gallstone pancreatitis improves.
           </div>
         </div>
 
@@ -22,7 +22,7 @@ export default function LapCholeOverviewPage() {
         <div>
           <div className="text-[14px] font-medium text-ink">Key Anatomy to Know Cold</div>
           <div className="mt-1 text-[14px] text-secondary leading-relaxed">
-            Calot's triangle (cystic duct, common hepatic duct, inferior liver edge), cystic
+            Hepatocystic triangle (cystic duct, common hepatic duct, inferior liver edge), cystic
             artery, common bile duct.
           </div>
         </div>
@@ -30,9 +30,9 @@ export default function LapCholeOverviewPage() {
         <div>
           <div className="text-[14px] font-medium text-ink">Critical Concept -- Critical View of Safety (CVS)</div>
           <div className="mt-2 rounded-md p-3 border border-cvs-border bg-cvs-light">
-            <div className="text-[11px] text-cvs font-medium mb-2">CVS criteria -- confirm all three before dividing</div>
+            <div className="text-[11px] text-cvs font-medium mb-2">CVS criteria -- confirm all three before clipping or dividing</div>
             <ol className="list-decimal pl-4 space-y-1">
-              <li className="text-[12px] text-cvs leading-snug">Clear all fat and fibrous tissue from Calot's triangle</li>
+              <li className="text-[12px] text-cvs leading-snug">Clear fat and fibrous tissue from the hepatocystic triangle</li>
               <li className="text-[12px] text-cvs leading-snug">Dissect the lower third of the gallbladder off the liver bed</li>
               <li className="text-[12px] text-cvs leading-snug">Confirm only two structures enter the gallbladder (cystic duct and cystic artery)</li>
             </ol>

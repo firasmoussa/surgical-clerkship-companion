@@ -1,5 +1,7 @@
 # Appendectomy content review
 
+> Historical design review. The September 21 clinical source audit resolves the fixed-percentage conflict and updates treatment wording; see [clinical-source-review.md](clinical-source-review.md).
+
 Reviewed September 20, 2026. Scope: Overview and Anatomy. Quiz, Pimp and Steps are flagged here without changing their behavior or content.
 
 ## Open question: retrocecal prevalence

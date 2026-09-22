@@ -9,7 +9,7 @@ export default function LapAppyOverviewPage() {
             <div className="text-[14px] font-medium text-ink">Indications</div>
             <div className="mt-1 text-[14px] text-secondary leading-relaxed">
               Acute appendicitis (uncomplicated and complicated), perforated appendicitis with
-              peritonitis, and interval appendectomy after non-operative management.
+              peritonitis, and selected interval appendectomy after non-operative management. Selection depends on the clinical course, age, and concern for neoplasm.
             </div>
           </div>
 
@@ -25,7 +25,7 @@ export default function LapAppyOverviewPage() {
             <div className="text-[14px] font-medium text-ink">Key Anatomy to Know Cold</div>
             <div className="mt-1 text-[14px] text-secondary leading-relaxed">
               Cecum, taenia coli (converge at appendiceal base), mesoappendix, appendiceal artery,
-              terminal ileum, ileocecal junction. The appendix is retrocecal in ~30% of patients.
+              terminal ileum, ileocecal junction. A retrocecal appendix lies behind the cecum; reported frequency varies by population and study.
             </div>
           </div>
 

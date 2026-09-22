@@ -17,8 +17,8 @@ const structures: Structure[] = [
   { name: "Common hepatic duct (CHD)", note: "Forms the medial border of Calot's triangle; avoid mistaking it for the cystic duct." },
   { name: "Common bile duct (CBD)", note: "Most feared injury in lap chole; confirm CVS before clipping anything." },
   { name: "Inferior liver edge", note: "Forms the superior border of Calot's triangle." },
-  { name: "Calot's triangle", note: "Space bounded by CHD (medial), cystic duct (inferior), liver edge (superior). Apex points toward liver." },
-  { name: "Rouvière's sulcus", note: "A 2-5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. Marks the approximate plane of the CBD. Stay superior and anterior to this landmark to avoid CBD injury." },
+  { name: "Calot's triangle", note: "The hepatocystic triangle is bounded by the common hepatic duct, cystic duct, and inferior liver edge. Often called Calot's triangle clinically, it differs from the original description, whose superior boundary was the cystic artery." },
+  { name: "Rouvière's sulcus", note: "A 2-5 cm fissure on the inferior surface of the right hepatic lobe, sitting to the right of the hilum. Marks the approximate plane of the CBD. This is an orientation landmark, not a substitute for confirming all three CVS criteria." },
 ];
 
 export default function LapCholeAnatomyPage() {
@@ -187,7 +187,7 @@ export default function LapCholeAnatomyPage() {
         <div className="mt-4 rounded-md p-3 border border-cvs-border bg-cvs-light">
           <div className="text-[11px] text-cvs font-medium mb-1">CVS criteria</div>
           <p className="text-[11px] text-cvs leading-snug">
-            Two structures enter the gallbladder, and only two.
+            Before clipping or division, confirm all three: a cleared hepatocystic triangle, the lower third of the gallbladder separated from the cystic plate, and only two structures entering the gallbladder.
           </p>
         </div>
       </div>

@@ -3,7 +3,7 @@ const complications = [
   { complication: "Major bleeding", timeframe: "Intraoperative", mechanism: "Injury to cystic artery, right hepatic artery, or liver bed", presentation: "Hemodynamic instability, poor visualization, expanding hematoma", management: "Immediate control intraoperatively; may require transfusion or conversion" },
   { complication: "Bile leak (cystic stump or accessory duct)", timeframe: "Early postop (days)", mechanism: "Incomplete clip seal or accessory duct injury", presentation: "RUQ pain, fever, bilious drain output, fluid collection", management: "ERCP with stent +/- percutaneous drainage" },
   { complication: "Retained common bile duct stone", timeframe: "Early to weeks", mechanism: "Missed choledocholithiasis", presentation: "Jaundice, pancreatitis, cholangitis", management: "ERCP" },
-  { complication: "Surgical site infection", timeframe: "Days to weeks", mechanism: "Contamination during extraction or port-site infection", presentation: "Erythema, drainage, tenderness", management: "Antibiotics +/- drainage" },
+  { complication: "Surgical site infection", timeframe: "Days to weeks", mechanism: "Contamination during extraction or port-site infection", presentation: "Erythema, drainage, tenderness", management: "Drainage when indicated; antibiotics for systemic illness or significant surrounding infection" },
   { complication: "Postoperative ileus", timeframe: "Early postop", mechanism: "Transient bowel dysmotility", presentation: "Distension, nausea/vomiting, delayed flatus", management: "Supportive care" },
 ];
 
