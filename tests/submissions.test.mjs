@@ -29,8 +29,9 @@ test('rejects links and identifies honeypots', () => {
 const routeCode = ts.transpileModule(fs.readFileSync('src/app/api/pimp/submit/route.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
 function harness(options = {}) {
  const rows = [];
+ const logs = [];
  const env = { SUBMISSIONS_ENABLED:'true', SUPABASE_URL:'https://example.invalid', SUPABASE_SERVICE_ROLE_KEY:'test-only', UPSTASH_REDIS_REST_URL:'https://example.invalid', UPSTASH_REDIS_REST_TOKEN:'test-only', SUBMISSION_RATE_LIMIT_SECRET:'test-only', VERCEL:'1', ...options.env };
- const sandbox = { exports: {}, Buffer, Uint8Array, process:{env}, require:(id) => {
+ const sandbox = { console: {error:(...args) => logs.push(args)}, exports: {}, Buffer, Uint8Array, process:{env}, require:(id) => {
   if (id === 'next/server') return { NextResponse: { json:(body,init={}) => ({body,status:init.status||200,headers:init.headers}) } };
   if (id === '@supabase/supabase-js') return { createClient:() => ({from:() => ({insert:async row => { rows.push(row); return {error: options.databaseError}; }})}) };
   if (id === '@upstash/redis') return { Redis:class {} };
@@ -39,7 +40,7 @@ function harness(options = {}) {
   return loadModule(id);
  }};
  vm.runInNewContext(routeCode,sandbox);
- return { rows, send:async (body,headers={}) => {
+ return { rows, logs, send:async (body,headers={}) => {
   const request = new Request('https://scrubready.net/api/pimp/submit', {method:'POST',headers:{origin:'https://scrubready.net','content-type':'application/json','x-forwarded-for':'192.0.2.1',...headers},body:typeof body === 'string' ? body : JSON.stringify(body)});
   request.nextUrl = new URL(request.url);
   return sandbox.exports.POST(request);
@@ -67,4 +68,21 @@ test('blocks cross-origin, non-JSON, invalid IP, rate-limit and oversized reques
 });
 test('honeypot returns success without storing a row',async()=>{
  const h=harness(); assert.equal((await h.send({...liveBody(),honeypot:'bot'})).status,200); assert.equal(h.rows.length,0);
+});
+
+test('diagnostics contain fixed stage codes only, never error details or form content', async () => {
+ const cases = [
+  [{env:{SUPABASE_SERVICE_ROLE_KEY:''}}, {}, 'configuration'],
+  [{}, {'x-forwarded-for':'invalid'}, 'client_address'],
+  [{limiterError:true}, {}, 'rate_limit_service'],
+  [{limit:{success:true,reason:'timeout'}}, {}, 'rate_limit_timeout'],
+  [{databaseError:{message:'sensitive database detail'}}, {}, 'database_insert'],
+ ];
+ for (const [options, headers, stage] of cases) {
+  const h = harness(options);
+  const result = await h.send({...liveBody(),question:'private submission text'}, headers);
+  assert.equal(result.status,503);
+  assert.deepEqual(h.logs, [['[submissions] unavailable', stage]]);
+  assert.equal(JSON.stringify(result).includes(stage),false);
+ }
 });
